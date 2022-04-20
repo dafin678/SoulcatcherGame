@@ -33,3 +33,11 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "apb12022_soulcatcher_AYBHt_j_mTzPxwcesGPO"
+        property "sonar.host.url", "https://sonarqube.cs.ui.ac.id"
+        property "sonar.login", "33bbe9bec1218574b7b958e2858193a5da1d9d5f"
+    }
+}
