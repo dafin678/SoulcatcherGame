@@ -1,21 +1,13 @@
 package id.ac.ui.cs.advprog.soulcatcher.controller;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import id.ac.ui.cs.advprog.soulcatcher.Security.JwtUtils;
-import id.ac.ui.cs.advprog.soulcatcher.model.ERole;
-import id.ac.ui.cs.advprog.soulcatcher.model.Role;
 import id.ac.ui.cs.advprog.soulcatcher.model.User;
 import id.ac.ui.cs.advprog.soulcatcher.payload.JwtResponse;
 import id.ac.ui.cs.advprog.soulcatcher.payload.LoginRequest;
 import id.ac.ui.cs.advprog.soulcatcher.payload.MessageResponse;
 import id.ac.ui.cs.advprog.soulcatcher.payload.RegisterRequest;
-import id.ac.ui.cs.advprog.soulcatcher.repository.RoleRepository;
 import id.ac.ui.cs.advprog.soulcatcher.repository.UserRepository;
 import id.ac.ui.cs.advprog.soulcatcher.service.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +28,6 @@ public class AuthenticationController {
     @Autowired
     UserRepository userRepository;
     @Autowired
-    RoleRepository roleRepository;
-    @Autowired
     PasswordEncoder encoder;
     @Autowired
     JwtUtils jwtUtils;
@@ -50,12 +40,9 @@ public class AuthenticationController {
         String jwt = jwtUtils.generateJwtToken(authentication);
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        List<String> roles = new ArrayList<>();
-        roles.add("ROLE_PLAYER");
         return ResponseEntity.ok(new JwtResponse(jwt,
                 userDetails.getId(),
-                userDetails.getUsername(),
-                roles));
+                userDetails.getUsername()));
     }
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequest registerRequest) {
@@ -67,11 +54,6 @@ public class AuthenticationController {
         // Create new user's account
         User user = new User(registerRequest.getUsername(),
                 encoder.encode(registerRequest.getPassword()));
-        Set<Role> roles = new HashSet<>();
-        Role userRole = roleRepository.findByName(ERole.ROLE_PLAYER)
-                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-        roles.add(userRole);
-        user.setRoles(roles);
         userRepository.save(user);
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
