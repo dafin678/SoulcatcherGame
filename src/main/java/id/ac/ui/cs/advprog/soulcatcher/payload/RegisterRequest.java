@@ -10,11 +10,12 @@ public class RegisterRequest {
     private String username;
 
     @NotBlank
+    private String email;
+
+    @NotBlank
     @Size(min = 6, max = 40)
     private String password;
 
-    @NotBlank
-    private String email;
 
     public String getUsername() {
         return username;
