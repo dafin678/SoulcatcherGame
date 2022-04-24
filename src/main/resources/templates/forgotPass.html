@@ -1,10 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>SOULCATCHER</title>
+    <link href='https://fonts.googleapis.com/css?family=Press Start 2P' rel='stylesheet'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-
+<div class="container">
+    <div class="text-center">
+        <form th:action="@{/forgot_password}">
+                <div class="form-group">
+                    <label for="email">Forgot Password</label><br>
+                    <input type="email" id="email" name="email" class="box" placeholder="Enter Email">
+                </div>
+            <a> href= "/reset_password"
+                <button id="submit-button" type="submit" th:text="Submit" class="box">Submit</button>
+            </a>
+            </fieldset>
+        </form>
+    </div>
+</div>
 </body>
+
 </html>
