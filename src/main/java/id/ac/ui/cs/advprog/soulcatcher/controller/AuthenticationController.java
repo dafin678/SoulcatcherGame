@@ -61,8 +61,13 @@ public class AuthenticationController {
                     .badRequest()
                     .body(new MessageResponse("Error: Username is already taken!"));
         }
+        if(userRepository.existsByEmail(registerRequest.getEmail())){
+            return ResponseEntity.badRequest().body(new MessageResponse(
+                    "Error: Email is already taken!"
+            ));
+        }
         // Create new user's account
-        User user = new User(registerRequest.getUsername(),
+        User user = new User(registerRequest.getUsername(),registerRequest.getEmail(),
                 encoder.encode(registerRequest.getPassword()));
         userRepository.save(user);
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
