@@ -10,4 +10,5 @@ public interface UserForgotPasswordService {
     User getByResetPasswordToken(String resetPasswordToken);
     void updatePasswordUser(User user, String newPassword);
     void sendEmail(String email, String resetPasswordLink) throws MessagingException;
+    String generateSimpleToken();
 }

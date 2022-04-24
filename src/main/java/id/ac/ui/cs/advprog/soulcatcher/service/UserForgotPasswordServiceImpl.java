@@ -3,6 +3,7 @@ package id.ac.ui.cs.advprog.soulcatcher.service;
 import id.ac.ui.cs.advprog.soulcatcher.exception.UserNotFoundException;
 import id.ac.ui.cs.advprog.soulcatcher.model.User;
 import id.ac.ui.cs.advprog.soulcatcher.repository.UserRepository;
+import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -58,14 +59,21 @@ public class UserForgotPasswordServiceImpl implements UserForgotPasswordService 
 
         String subject = "Here's link to reset your password";
         String content = "<p>Hello,<p>"
-                + "<p>You have requested to reset your password</p>"
-                + "<p>Click the link below to change your password:</p>"
-                + "<p><b><a href=\"" + resetPasswordLink + "\">Change my password</a><b></p>";
+                + "<p>Someone (hopefully you) has requested a password reset for your Soulcatcher account. " +
+                "Follow the link below to set a new password:</p>"
+                + "<p><b><a href=\"" + resetPasswordLink + "\">Change your password</a><b></p>"
+                + "<p>If you don't wish to reset your password, disregard this email and no action will be taken.</p>"
+                + "<p>The Soulcatcher Team</p>";
         helper.setSubject(subject);
         helper.setText(content, true);
 
         mailSender.send(message);
 
+    }
+
+    @Override
+    public String generateSimpleToken() {
+        return RandomString.make(45);
     }
 
 
