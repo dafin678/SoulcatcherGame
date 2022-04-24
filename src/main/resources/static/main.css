@@ -1,0 +1,16 @@
+
+body{
+    color: white;
+    background-image: url(https://wallpapercave.com/dwp1x/wp8483103.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    margin-top: 12px;
+}
+
+div{
+    margin-top: 12px;
+}
+input{
+    color: white;
+}

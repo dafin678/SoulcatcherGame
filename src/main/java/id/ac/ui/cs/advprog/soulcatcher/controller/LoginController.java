@@ -27,6 +27,11 @@ public class LoginController {
     @Autowired
     private UserForgotPasswordService userForgotPasswordService;
 
+    @GetMapping(value = "/")
+    public String home() {
+        return "home";
+    }
+
     @GetMapping("/login")
     public String login() {
         return "login";
@@ -61,7 +66,7 @@ public class LoginController {
 
     @GetMapping("/forgot_password")
     public String showForgotPasswordForm(){
-        return "";
+        return "forgotPass";
     }
     @PostMapping("/forgot_password")
     public ResponseEntity<?> processForgotPassword(@Valid @RequestBody ForgotPasswordRequest forgotPasswordRequest) throws UserNotFoundException, MessagingException {
@@ -74,6 +79,10 @@ public class LoginController {
                 " first step!"));
     }
 
+    @GetMapping("/reset_password")
+    public String showResetPasswordForm(){
+        return "changePass";
+    }
     @PostMapping("/reset_password")
     public ResponseEntity<?> processResetPassword(@Valid @RequestBody ForgotPasswordRequest forgotPasswordRequest){
         String token = forgotPasswordRequest.getToken();
