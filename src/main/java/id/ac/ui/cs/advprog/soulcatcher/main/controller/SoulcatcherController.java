@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -32,12 +33,7 @@ public class SoulcatcherController {
     private Player player;
 
     @GetMapping("/dashboard")
-    public String index(@RequestHeader (name="Authorization") String header) {
-        String token = null;
-
-        if (StringUtils.hasText(header) && header.startsWith("Bearer ")) {
-            token = header.substring(7);
-        }
+    public String index(@CookieValue(name="jwttoken") String token) {
 
         String username = jwtUtils.getUserNameFromJwtToken(token);
 

@@ -16,7 +16,7 @@ public class Inventory {
     @NonNull
     private String name;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name="consumable_inventory",
             joinColumns = @JoinColumn(name = "inventory_name"),
