@@ -3,6 +3,7 @@ package id.ac.ui.cs.advprog.soulcatcher.service;
 import id.ac.ui.cs.advprog.soulcatcher.exception.UserNotFoundException;
 import id.ac.ui.cs.advprog.soulcatcher.model.User;
 import id.ac.ui.cs.advprog.soulcatcher.repository.UserRepository;
+import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -66,6 +67,11 @@ public class UserForgotPasswordServiceImpl implements UserForgotPasswordService 
 
         mailSender.send(message);
 
+    }
+
+    @Override
+    public String generateSimpleToken() {
+        return RandomString.make(45);
     }
 
 

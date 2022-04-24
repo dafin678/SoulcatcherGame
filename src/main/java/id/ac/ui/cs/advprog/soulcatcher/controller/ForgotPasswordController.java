@@ -35,7 +35,7 @@ public class ForgotPasswordController {
     @PostMapping("/forgot_password")
     public ResponseEntity<?> processForgotPassword(@Valid @RequestBody ForgotPasswordRequest forgotPasswordRequest) throws UserNotFoundException, MessagingException{
         String email = forgotPasswordRequest.getEmail();
-        String token = RandomString.make(45);
+        String token = userForgotPasswordService.generateSimpleToken();
         userForgotPasswordService.updateResetPasswordToken(token,email);
         String resetPasswordLink =  "http://localhost:8080"+"/reset_password?token=" + token;
         userForgotPasswordService.sendEmail(email,resetPasswordLink);
