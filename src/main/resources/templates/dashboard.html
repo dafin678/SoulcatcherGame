@@ -16,17 +16,13 @@
     <div class="text-center align-items-center">
         <div class="row text-center">
             <div class="col align-self-center">
-                <div class="container my-5" style="width: 20rem;">
-                    <h2 class="text-center mb-3">SOULCATCHER</h2>
-                    <div class="list-group">
-                        <div class="col-sm">
-                            <a th:href="@{'/auth/login'}" class="btn btn-dark" style="background-color: black;border: 3px solid white;">LOGIN</a>
-                        </div>
-                        <div class="col-sm">
-                            <a th:href="@{'/auth/register'}" class="btn btn-dark" style="background-color: black;border: 3px solid white;">REGISTER</a>
-                        </div>
-                    </div>
-                </div>
+<div class="container my-5" style="width: 20rem;">
+    <h2 class="text-center mb-3">Personal Dashboard</h2>
+    <div class="list-group">
+        <a th:href="@{/inventory}" class="list-group-item list-group-item-action text-center">Inventory</a>
+        <a href="#" class="list-group-item list-group-item-action text-center">Persona</a>
+    </div>
+</div>
             </div>
         </div>
     </div>

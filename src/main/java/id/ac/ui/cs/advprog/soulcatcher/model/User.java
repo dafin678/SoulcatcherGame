@@ -1,9 +1,9 @@
 package id.ac.ui.cs.advprog.soulcatcher.model;
 
+import id.ac.ui.cs.advprog.soulcatcher.main.model.Player;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
-
 
 @Entity
 @Table(	name = "users")
@@ -40,4 +40,8 @@ public class User {
         public void setResetPasswordToken(String resetPasswordToken) {
                 this.resetPasswordToken = resetPasswordToken;
         }
+
+        @OneToOne
+        @JoinColumn(name = "player_user", referencedColumnName ="username")
+        private Player player;
 }

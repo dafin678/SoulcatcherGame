@@ -32,6 +32,11 @@ public class AuthenticationController {
     @Autowired
     JwtUtils jwtUtils;
 
+    @GetMapping(value = "/login")
+    public String login() {
+        return "login";
+    }
+
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
@@ -44,6 +49,11 @@ public class AuthenticationController {
                 userDetails.getId(),
                 userDetails.getUsername()));
     }
+    @GetMapping(value = "/register")
+    public String register() {
+        return "register";
+    }
+
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequest registerRequest) {
         if (userRepository.existsByUsername(registerRequest.getUsername())) {

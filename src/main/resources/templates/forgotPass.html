@@ -17,15 +17,17 @@
         <div class="row text-center">
             <div class="col align-self-center">
                 <div class="container my-5" style="width: 20rem;">
-                    <h2 class="text-center mb-3">SOULCATCHER</h2>
-                    <div class="list-group">
-                        <div class="col-sm">
-                            <a th:href="@{'/auth/login'}" class="btn btn-dark" style="background-color: black;border: 3px solid white;">LOGIN</a>
+                    <h2 class="text-center mb-3">Personal Dashboard</h2>
+                    <form th:action="@{/forgot_password}">
+                        <div class="form-group">
+                            <label for="email">Forgot Password</label><br>
+                            <input type="email" id="email" name="email" class="box" placeholder="Enter Email">
                         </div>
-                        <div class="col-sm">
-                            <a th:href="@{'/auth/register'}" class="btn btn-dark" style="background-color: black;border: 3px solid white;">REGISTER</a>
-                        </div>
-                    </div>
+                        <a> href= "/reset_password"
+                            <button id="submit-button" type="submit" th:text="Submit" class="box">Submit</button>
+                        </a>
+                        </fieldset>
+                    </form>
                 </div>
             </div>
         </div>
