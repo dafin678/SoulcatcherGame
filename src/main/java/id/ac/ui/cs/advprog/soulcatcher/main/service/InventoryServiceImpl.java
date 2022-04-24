@@ -25,11 +25,11 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public Inventory createInventory(String username) {
-        Inventory playerInventory = new Inventory(username);
+        var playerInventory = new Inventory(username);
 
-        Consumable sunsettia = consumableService.createConsumable("Sunsettia", "Memulihkan 100 HP points");
-        Consumable apple = consumableService.createConsumable("Apple", "Memulihkan 100 mana points");
-        Consumable starshroom = consumableService.createConsumable("Starshroom ", "Memulihkan 200 HP points");
+        var sunsettia = consumableService.createConsumable("Sunsettia", "Memulihkan 100 HP points");
+        var apple = consumableService.createConsumable("Apple", "Memulihkan 100 mana points");
+        var starshroom = consumableService.createConsumable("Starshroom ", "Memulihkan 200 HP points");
 
         addConsumableToInventory(playerInventory, sunsettia);
         addConsumableToInventory(playerInventory, starshroom);
@@ -48,13 +48,12 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public Inventory deleteConsumableFromInventory(Inventory inventory, Integer consumableId) {
-        Consumable consumable = consumableRepository.getById(consumableId);
         List<Consumable> consumableList = inventory.getConsumableList();
         Iterator<Consumable> itr = consumableList.iterator();
 
         while(itr.hasNext()) {
             Integer id = itr.next().getId();
-            if(id == consumableId) {
+            if(id.equals(consumableId)) {
                 itr.remove();
             }
         }
