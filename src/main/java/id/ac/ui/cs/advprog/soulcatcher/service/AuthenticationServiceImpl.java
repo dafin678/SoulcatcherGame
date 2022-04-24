@@ -30,7 +30,7 @@ public class AuthenticationServiceImpl implements AuthenticationService{
     public String login(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        SecurityContextHolder.getContext().setAuthentication(authentication); // bukan masalah
         String jwt = jwtUtils.generateJwtToken(authentication);
         return jwt;
     }

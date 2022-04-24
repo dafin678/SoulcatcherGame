@@ -7,6 +7,8 @@ import id.ac.ui.cs.advprog.soulcatcher.main.service.PlayerService;
 import id.ac.ui.cs.advprog.soulcatcher.model.User;
 import id.ac.ui.cs.advprog.soulcatcher.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -34,7 +36,6 @@ public class SoulcatcherController {
 
     @GetMapping("/dashboard")
     public String index(@CookieValue(name="jwttoken") String token) {
-
         String username = jwtUtils.getUserNameFromJwtToken(token);
 
         var user = userService.getUserByUsername(username);
@@ -45,6 +46,8 @@ public class SoulcatcherController {
             player = playerService.getPlayer(userValue.getUsername());
             userValue.setPlayer(player);
             userService.save(user);
+        } else {
+            return "redirect:/login";
         }
 
         return "dashboard";
@@ -56,12 +59,15 @@ public class SoulcatcherController {
             model.addAttribute("consumables", player.getPlayerInventory().getConsumableList());
             return "inventory";
         } else {
-            return "redirect:/dashboard";
+            return "redirect:/login";
         }
     }
 
     @GetMapping(value = "/inventory/{consumableId}/delete-consumable")
     public String deleteConsumable(@PathVariable Integer consumableId) {
+        if(player == null) {
+            return "redirect:/login";
+        }
         var inventory = player.getPlayerInventory();
         inventoryService.deleteConsumableFromInventory(inventory, consumableId);
 
