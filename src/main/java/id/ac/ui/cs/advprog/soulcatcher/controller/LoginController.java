@@ -1,18 +1,31 @@
 package id.ac.ui.cs.advprog.soulcatcher.controller;
 
+import id.ac.ui.cs.advprog.soulcatcher.exception.UserNotFoundException;
+import id.ac.ui.cs.advprog.soulcatcher.model.User;
+import id.ac.ui.cs.advprog.soulcatcher.payload.ForgotPasswordRequest;
 import id.ac.ui.cs.advprog.soulcatcher.payload.LoginRequest;
+import id.ac.ui.cs.advprog.soulcatcher.payload.MessageResponse;
 import id.ac.ui.cs.advprog.soulcatcher.payload.RegisterRequest;
 import id.ac.ui.cs.advprog.soulcatcher.service.AuthenticationService;
+import id.ac.ui.cs.advprog.soulcatcher.service.UserForgotPasswordService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import javax.mail.MessagingException;
+import javax.validation.Valid;
 
 @Controller
 public class LoginController {
     @Autowired
     AuthenticationService authenticationService;
+
+    @Autowired
+    private UserForgotPasswordService userForgotPasswordService;
 
     @GetMapping("/login")
     public String login() {
@@ -26,7 +39,7 @@ public class LoginController {
         } catch (Exception e) {
             return "redirect:/wrong";
         }
-        return "redirect:/dummy";
+        return "redirect:/dashboard";
     }
 
     @GetMapping("/register")
@@ -44,6 +57,34 @@ public class LoginController {
             return "redirect:/wrong";
         }
         return "redirect:/login";
+    }
+
+    @GetMapping("/forgot_password")
+    public String showForgotPasswordForm(){
+        return "";
+    }
+    @PostMapping("/forgot_password")
+    public ResponseEntity<?> processForgotPassword(@Valid @RequestBody ForgotPasswordRequest forgotPasswordRequest) throws UserNotFoundException, MessagingException {
+        String email = forgotPasswordRequest.getEmail();
+        String token = userForgotPasswordService.generateSimpleToken();
+        userForgotPasswordService.updateResetPasswordToken(token,email);
+        String resetPasswordLink =  "http://localhost:8080"+"/reset_password?token=" + token;
+        userForgotPasswordService.sendEmail(email,resetPasswordLink);
+        return ResponseEntity.ok(new MessageResponse("Password changed successfully with" +
+                " first step!"));
+    }
+
+    @PostMapping("/reset_password")
+    public ResponseEntity<?> processResetPassword(@Valid @RequestBody ForgotPasswordRequest forgotPasswordRequest){
+        String token = forgotPasswordRequest.getToken();
+        String password = forgotPasswordRequest.getPassword();
+        User user = userForgotPasswordService.getByResetPasswordToken(token);
+        if(user == null){
+            return ResponseEntity.badRequest().body(new MessageResponse("Invalid Token!"));
+        }
+        userForgotPasswordService.updatePasswordUser(user,password);
+        return ResponseEntity.ok(new MessageResponse("Password changed successfully with" +
+                " last step!"));
     }
 
     @GetMapping("/dummy")

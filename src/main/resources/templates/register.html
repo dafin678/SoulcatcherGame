@@ -12,12 +12,8 @@
 <body>
     <div class="container">
         <div class="text-center">
-            <form th:action="@{/auth/register}" th:object="${user}" method="POST" enctype="utf8" data-toggle="validator">
+            <form th:action="@{register}" th:object="${user}" method="POST" enctype="utf8" data-toggle="validator">
                 <fieldset>
-                    <div class="form-group">
-                        <label for="id">ID</label> <br>
-                        <input id="id" name="id" type="id" class="box">
-                    </div>
                     <div class="form-group">
                         <label for="username">USERNAME</label> <br>
                         <input id="username" name="username" type="username" class="box">
