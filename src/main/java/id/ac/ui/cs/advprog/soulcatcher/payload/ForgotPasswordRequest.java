@@ -6,19 +6,16 @@ import javax.validation.constraints.NotBlank;
 public class ForgotPasswordRequest {
 
     @NotBlank
-    private String password;
-
-    @NotBlank
     private String email;
 
+    @NotBlank
+    private String token;
 
-    public String getPassword() {
-        return password;
-    }
+    @NotBlank
+    private String password;
 
-    public String getEmail(){ return email; }
+    public String getEmail(){ return email;}
+    public String getToken(){ return token;}
+    public String getPassword(){ return password;}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

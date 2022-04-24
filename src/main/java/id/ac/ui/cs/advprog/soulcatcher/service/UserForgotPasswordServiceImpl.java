@@ -25,6 +25,7 @@ public class UserForgotPasswordServiceImpl implements UserForgotPasswordService 
     @Override
     public void updateResetPasswordToken(String token,String email) throws UserNotFoundException {
         User user = userRepository.findByEmail(email);
+        //System.out.println(userRepository.findAll());
         if(user!=null){
             user.setResetPasswordToken(token);
             userRepository.save(user);
