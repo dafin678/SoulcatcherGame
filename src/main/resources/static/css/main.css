@@ -1,0 +1,44 @@
+/*::-webkit-scrollbar {*/
+/*    width: 1em;*/
+/*}*/
+/*::-webkit-scrollbar-track {*/
+/*    border: 2px solid white ;*/
+/*    background-color: black;*/
+/*}*/
+/*::-webkit-scrollbar-thumb {*/
+/*    background-color: white;*/
+/*}*/
+body {
+    font-family: 'Press Start 2P';
+    background-color: black;
+    color: white;
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+div{
+    position: relative;
+}
+.box {
+    background-color: black;
+    border: 3px solid white;
+    color: white;
+}
+.container {
+    position: absolute;
+    display: flex;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    align-items: center;
+    justify-content: center;
+    height: 75%;
+}
+
+li::before {
+    content: "<";
+    position: absolute;
+    left: 0;
+}
