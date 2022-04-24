@@ -59,9 +59,11 @@ public class UserForgotPasswordServiceImpl implements UserForgotPasswordService 
 
         String subject = "Here's link to reset your password";
         String content = "<p>Hello,<p>"
-                + "<p>You have requested to reset your password</p>"
-                + "<p>Click the link below to change your password:</p>"
-                + "<p><b><a href=\"" + resetPasswordLink + "\">Change my password</a><b></p>";
+                + "<p>Someone (hopefully you) has requested a password reset for your Soulcatcher account. " +
+                "Follow the link below to set a new password:</p>"
+                + "<p><b><a href=\"" + resetPasswordLink + "\">Change your password</a><b></p>"
+                + "<p>If you don't wish to reset your password, disregard this email and no action will be taken.</p>"
+                + "<p>The Soulcatcher Team</p>";
         helper.setSubject(subject);
         helper.setText(content, true);
 
