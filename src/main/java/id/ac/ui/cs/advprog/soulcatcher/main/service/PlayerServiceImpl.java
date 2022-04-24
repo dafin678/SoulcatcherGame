@@ -31,7 +31,7 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public Player getPlayer(String username) {
-        Player player = playerRepository.findPlayerByUsername(username);
+        var player = playerRepository.findPlayerByUsername(username);
         if (player == null) {
             player = createPlayer(username);
         }

@@ -41,7 +41,7 @@ public class SoulcatcherController {
 
     @GetMapping(value = "/inventory/{consumableId}/delete-consumable")
     public String deleteConsumable(@PathVariable Integer consumableId) {
-        Inventory inventory = player.getPlayerInventory();
+        var inventory = player.getPlayerInventory();
         inventoryService.deleteConsumableFromInventory(inventory, consumableId);
 
         return "redirect:/inventory";
