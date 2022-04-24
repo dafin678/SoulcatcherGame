@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class PlayerServiceImplTest {
+class PlayerServiceImplTest {
 
     @Mock
     private PlayerRepository playerRepository;
@@ -36,14 +36,14 @@ public class PlayerServiceImplTest {
     }
 
     @Test
-    public void testCreatePlayer() {
+    void testCreatePlayer() {
         playerService.createPlayer("Bintang");
         verify(playerRepository, times(1)).save(player);
         verify(inventoryService, times(1)).createInventory("Bintang");
     }
 
     @Test
-    public void testGetPlayer() {
+    void testGetPlayer() {
         playerService.getPlayer("A");
         verify(playerRepository, times(1)).findPlayerByUsername("A");
 

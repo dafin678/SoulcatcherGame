@@ -1,14 +1,18 @@
 package id.ac.ui.cs.advprog.soulcatcher.main.controller;
 
-import id.ac.ui.cs.advprog.soulcatcher.main.model.Inventory;
+import id.ac.ui.cs.advprog.soulcatcher.Security.JwtUtils;
 import id.ac.ui.cs.advprog.soulcatcher.main.model.Player;
 import id.ac.ui.cs.advprog.soulcatcher.main.service.InventoryService;
 import id.ac.ui.cs.advprog.soulcatcher.main.service.PlayerService;
+import id.ac.ui.cs.advprog.soulcatcher.model.User;
+import id.ac.ui.cs.advprog.soulcatcher.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 @Controller
 public class SoulcatcherController {
@@ -17,15 +21,36 @@ public class SoulcatcherController {
     private PlayerService playerService;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private InventoryService inventoryService;
 
-    private Player player = null;   // masih bingung cara dapetin user dari jwt token
+    @Autowired
+    private JwtUtils jwtUtils;
+
+    private Player player;
 
     @GetMapping("/dashboard")
-    public String index() {
-        if(player == null) {
-            player = playerService.createPlayer("bintang");
+    public String index(@RequestHeader (name="Authorization") String header) {
+        String token = null;
+
+        if (StringUtils.hasText(header) && header.startsWith("Bearer ")) {
+            token = header.substring(7);
         }
+
+        String username = jwtUtils.getUserNameFromJwtToken(token);
+
+        var user = userService.getUserByUsername(username);
+        User userValue = null;
+
+        if(user.isPresent()) {
+            userValue = user.get();
+            player = playerService.getPlayer(userValue.getUsername());
+            userValue.setPlayer(player);
+            userService.save(user);
+        }
+
         return "dashboard";
     }
 
@@ -35,7 +60,7 @@ public class SoulcatcherController {
             model.addAttribute("consumables", player.getPlayerInventory().getConsumableList());
             return "inventory";
         } else {
-            return "redirect:/";
+            return "redirect:/dashboard";
         }
     }
 

@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class ConsumableServiceImplTest {
+class ConsumableServiceImplTest {
 
     @Mock
     private ConsumableRepository consumableRepository;
@@ -32,13 +32,13 @@ public class ConsumableServiceImplTest {
     }
 
     @Test
-    public void testCreateConsumable() {
+    void testCreateConsumable() {
         consumableService.createConsumable("Apple", "Memulihkan 100 HP points");
         verify(consumableRepository, times(1)).save(consumable);
     }
 
     @Test
-    public void testGetConsumables() {
+    void testGetConsumables() {
         List<Consumable> consumableList = consumableRepository.findAll();
         lenient().when(consumableService.getConsumables()).thenReturn(consumableList);
         List<Consumable> consumableListResult = consumableService.getConsumables();

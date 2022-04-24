@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class InventoryServiceImplTest {
+class InventoryServiceImplTest {
 
     @Mock
     ConsumableService consumableService;
@@ -37,7 +37,7 @@ public class InventoryServiceImplTest {
     }
 
     @Test
-    public void testCreateInventory() {
+    void testCreateInventory() {
         Consumable sunsettia = new Consumable("Sunsettia", "Memulihkan 100 HP points");
         Consumable apple = new Consumable("Apple", "Memulihkan 100 mana points");
         Consumable starshroom = new Consumable("Starshroom ", "Memulihkan 200 HP points");
@@ -52,7 +52,7 @@ public class InventoryServiceImplTest {
     }
 
     @Test
-    public void testAddConsumableToInventory() {
+    void testAddConsumableToInventory() {
         Consumable consumable = new Consumable("A", "B");
         inventory.getConsumableList().add(consumable);
 
@@ -63,7 +63,7 @@ public class InventoryServiceImplTest {
     }
 
     @Test
-    public void testDeleteConsumableToInventory() {
+    void testDeleteConsumableToInventory() {
         Consumable consumable = new Consumable("A", "B");
         consumable.setId(0);
         inventory.getConsumableList().add(consumable);
