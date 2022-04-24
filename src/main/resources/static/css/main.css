@@ -1,13 +1,4 @@
-/*::-webkit-scrollbar {*/
-/*    width: 1em;*/
-/*}*/
-/*::-webkit-scrollbar-track {*/
-/*    border: 2px solid white ;*/
-/*    background-color: black;*/
-/*}*/
-/*::-webkit-scrollbar-thumb {*/
-/*    background-color: white;*/
-/*}*/
+
 body {
     font-family: 'Press Start 2P';
     background-color: black;
@@ -17,9 +8,6 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-}
-div{
-    position: relative;
 }
 .box {
     background-color: black;
@@ -35,10 +23,4 @@ div{
     align-items: center;
     justify-content: center;
     height: 75%;
-}
-
-li::before {
-    content: "<";
-    position: absolute;
-    left: 0;
 }
