@@ -9,10 +9,7 @@ import javax.validation.Valid;
 
 public class Utility {
     public static String getSiteURL(@Valid @RequestBody ForgotPasswordRequest request){
-
             String siteURL = ((HttpServletRequest)request).getRequestURL().toString();
             return siteURL.replace(((HttpServletRequest)request).getServletPath(),"");
-
-
     }
 }
