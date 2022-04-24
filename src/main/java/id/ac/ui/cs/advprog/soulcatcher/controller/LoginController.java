@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @Controller
@@ -38,12 +40,14 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String login(@ModelAttribute("user") LoginRequest loginRequest) {
+    public String login(@ModelAttribute("user") LoginRequest loginRequest, HttpServletResponse response) {
+        String jwt = null;
         try {
-            authenticationService.login(loginRequest);
+            jwt = authenticationService.login(loginRequest);
         } catch (Exception e) {
             return "redirect:/wrong";
         }
+        response.addCookie(new Cookie("jwttoken", jwt));
         return "redirect:/dashboard";
     }
 
