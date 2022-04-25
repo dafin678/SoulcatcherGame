@@ -30,7 +30,7 @@ public class LoginController {
     @Autowired
     private UserForgotPasswordService userForgotPasswordService;
 
-    @GetMapping("/home")
+    @GetMapping("/")
     public String home() {
         return "home";
     }
@@ -47,7 +47,7 @@ public class LoginController {
             jwt = authenticationService.login(loginRequest);
         } catch (Exception e) {
             model.addAttribute("message", "Username atau password yang anda masukkan salah");
-            return "redirect:/login";
+            return "login";
         }
         response.addCookie(new Cookie("jwttoken", jwt));
         return "redirect:/dashboard";
@@ -63,11 +63,11 @@ public class LoginController {
         String response = authenticationService.register(registerRequest);
         if(response.equals("UsernameExist")) {
             model.addAttribute("message", "Username sudah dipakai");
-            return "redirect:/register";
+            return "register";
         }
         if(response.equals("EmailExist")) {
             model.addAttribute("message", "Email sudah dipakai");
-            return "redirect:/register";
+            return "register";
         }
         return "redirect:/login";
     }

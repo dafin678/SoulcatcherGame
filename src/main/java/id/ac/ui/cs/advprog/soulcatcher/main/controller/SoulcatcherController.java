@@ -35,9 +35,13 @@ public class SoulcatcherController {
     private Player player;
 
     @GetMapping("/dashboard")
-    public String index(@CookieValue(name="jwttoken") String token) {
-        String username = jwtUtils.getUserNameFromJwtToken(token);
-
+    public String index(@CookieValue(name="jwttoken", defaultValue = "") String token) {
+        String username;
+        try {
+            username = jwtUtils.getUserNameFromJwtToken(token);
+        } catch (Exception e) {
+            return "redirect:/login";
+        }
         var user = userService.getUserByUsername(username);
         User userValue = null;
 
