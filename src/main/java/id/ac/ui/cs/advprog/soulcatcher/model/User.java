@@ -1,5 +1,6 @@
 package id.ac.ui.cs.advprog.soulcatcher.model;
 
+import id.ac.ui.cs.advprog.soulcatcher.main.model.Player;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
@@ -26,6 +27,11 @@ public class User {
 
         @Column(name = "reset_password_token")
         private String resetPasswordToken;
+
+        @OneToOne
+        @JoinColumn(name = "player_user", referencedColumnName ="username")
+        private Player player;
+
 
         public User(String username,String email,String password) {
                 this.username = username;

@@ -8,37 +8,47 @@
     <link rel="stylesheet" th:href="@{/css/main.css}">
 </head>
 
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap');
+</style>
+
 <body>
-    <div class="container">
-        <div>
-            <div style="padding: 24px;">
-                <form name="f" th:action="@{/login}" th:object="${user}" method="POST" enctype="utf8" data-toggle="validator">
-                    <fieldset>
-                        <!-- Login Controls -->
-                        <div class="form-group">
-                            <label for="username">USERNAME</label>
-                            <input type="text" class="form-control" id="username" name="username" style="background-color: black; border: 3px solid white;">
-                        </div>
-                        <div class="form-group">
-                            <label for="password">PASSWORD</label>
-                            <input type="password" class="form-control" id="password" name="password" style="background-color: black; border: 3px solid white;">
-                        </div>
+<div class="container">
+    <div class="text-center">
+        <div style="padding: 24px;">
+            <form name="f" th:action="@{/login}" th:object="${user}" method="POST" enctype="utf8" data-toggle="validator">
+                <fieldset>
+                    <!-- Login Controls -->
+                    <div class="form-group">
+                        <label for="username">USERNAME</label>
+                        <input type="text" class="form-control" id="username" name="username" style="background-color: whitesmoke; border: 3px black;">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">PASSWORD</label>
+                        <input type="password" class="form-control" id="password" name="password" style="background-color: whitesmoke; border: 3px black;">
+                    </div>
+                    <div class="form-group">
+                        <p th:text="${message}" style="color:red";></p>
+                    </div>
+                    <!-- Login Button -->
+                    <div class="form-actions d-flex justify-content-center" style="margin-top: 12px;">
+                        <button type="submit" class="btn" style="background-color: whitesmoke;border: 3px black;">Login</button>
+                    </div>
 
-                        <!-- Login Button -->
-                        <div class="form-actions d-flex justify-content-end" style="margin-top: 12px;">
-                            <button type="submit" class="btn btn-dark" style="background-color: black;border: 3px solid white;">Login</button>
-                        </div>
+                    <div class="form-group d-flex justify-content-center">
+                        <p><a th:href="@{'/forgot_password'}" class="text-dark stretched-link" style="font-size: 0.75rem">Forgot Password?</a></p>
+                    </div>
 
-                        <div class="col-sm">
-                            <a th:href="@{'/forgot_password'}" class="btn btn-dark" style="background-color: black;border: 3px solid white;">Forgot Password</a>
-                        </div>
-                    </fieldset>
-                </form>
-            </div>
-
+                    <div class="form-actions d-flex justify-content-center" style="margin-top: 12px;">
+                        <a th:href="@{'/'}" class="btn btn-light" style="background-color: whitesmoke;">BACK</a>
+                    </div>
+                </fieldset>
+            </form>
         </div>
 
     </div>
+
+</div>
 </body>
 
 </html>

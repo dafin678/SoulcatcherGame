@@ -1,24 +1,29 @@
 package id.ac.ui.cs.advprog.soulcatcher.controller;
 
 import id.ac.ui.cs.advprog.soulcatcher.exception.UserNotFoundException;
-import id.ac.ui.cs.advprog.soulcatcher.payload.ForgotPasswordRequest;
-import id.ac.ui.cs.advprog.soulcatcher.payload.LoginRequest;
-import id.ac.ui.cs.advprog.soulcatcher.payload.RegisterRequest;
 import id.ac.ui.cs.advprog.soulcatcher.service.AuthenticationService;
-import id.ac.ui.cs.advprog.soulcatcher.service.UserForgotPasswordService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class LoginController {
     @Autowired
     AuthenticationService authenticationService;
 
+    @GetMapping("/")
+    public String home() {
+        return "home";
+    }
 
     @GetMapping("/login")
     public String login() {
@@ -26,12 +31,15 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String login(@ModelAttribute("user") LoginRequest loginRequest) {
+    public String login(HttpServletRequest loginRequest, HttpServletResponse response, Model model) {
+        String jwt;
         try {
-            authenticationService.login(loginRequest);
+            jwt = authenticationService.login(loginRequest);
         } catch (Exception e) {
-            return "redirect:/wrong";
+            model.addAttribute("message", "Username atau password yang anda masukkan salah");
+            return "login";
         }
+        response.addCookie(new Cookie("jwttoken", jwt));
         return "redirect:/dashboard";
     }
 
@@ -41,43 +49,61 @@ public class LoginController {
     }
 
     @PostMapping("/register")
-    public String register(@ModelAttribute("user") RegisterRequest registerRequest) {
+    public String register(HttpServletRequest registerRequest, Model model) {
         String response = authenticationService.register(registerRequest);
-        if(response.equals("UsernameExist")) {
-            return "redirect:/wrong";
+        if (response.equals("UsernameExist")) {
+            model.addAttribute("message", "Username sudah dipakai");
+            return "register";
         }
-        if(response.equals("EmailExist")) {
-            return "redirect:/wrong";
+        if (response.equals("EmailExist")) {
+            model.addAttribute("message", "Email sudah dipakai");
+            return "register";
         }
         return "redirect:/login";
+
     }
+
 
     @GetMapping("/forgot_password")
     public String showForgotPasswordForm(){
         return "forgotPass";
     }
     @PostMapping("/forgot_password")
-    public String processForgotPassword(@ModelAttribute("user")  ForgotPasswordRequest forgotPasswordRequest) throws UserNotFoundException, MessagingException {
-        String response = authenticationService.processForgotPassword(forgotPasswordRequest);
-        System.out.println(response);
-        if(response.equals("Link to reset your password has been sent to your email")) {
-            return "redirect:/login";
+    public String processForgotPassword(HttpServletRequest forgotPasswordRequest, Model model) {
+
+        try {
+            String response = authenticationService.processForgotPassword(forgotPasswordRequest);
+            if (response.equals("sentEmail")) {
+                model.addAttribute("message",
+                        "Link to reset your password has been sent to your email");
+                return "login";
+            }
+        }catch(Exception ex){
+            model.addAttribute("error",ex.getMessage());
+            return "forgotPass";
         }
         return "redirect:/forgotPass";
     }
 
     @GetMapping("/reset_password")
-    public String showResetPasswordForm(){
-        return "changePass";
+    public String showResetPasswordForm(@Param(value = "token") String token, Model model){
+        String response = authenticationService.showResetPasswordForm(token,model);
+        if(response.equals("resetPasswordForm")){
+            return "changePass";
+        }
+        model.addAttribute("message","Invalid Token!");
+        return "redirect:/forgotPass";
     }
 
     @PostMapping("/reset_password")
-    public String processResetPassword(ForgotPasswordRequest forgotPasswordRequest){
+    public String processResetPassword(HttpServletRequest forgotPasswordRequest, Model model){
         String response = authenticationService.processResetPassword(forgotPasswordRequest);
-        if(response.equals("Invalid Token!")){
+        if(response.equals("InvalidToken")){
+            model.addAttribute("message","Invalid Token!");
             return "redirect:/forgotPass";
         }
         else if(response.equals("Password changed successfully")){
+            model.addAttribute("message","Password changed successfully");
             return "redirect:/login";
         }
         return "redirect:/forgotPass";
