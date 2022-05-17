@@ -2,6 +2,8 @@ package id.ac.ui.cs.advprog.soulcatcher.main.service;
 
 import id.ac.ui.cs.advprog.soulcatcher.main.core.Classes;
 import id.ac.ui.cs.advprog.soulcatcher.main.core.Knight;
+import id.ac.ui.cs.advprog.soulcatcher.main.core.Mage;
+import id.ac.ui.cs.advprog.soulcatcher.main.core.Priest;
 import id.ac.ui.cs.advprog.soulcatcher.main.model.Persona;
 import id.ac.ui.cs.advprog.soulcatcher.main.model.PersonaInventory;
 import id.ac.ui.cs.advprog.soulcatcher.main.repository.PersonaInventoryRepository;
@@ -33,7 +35,14 @@ public class PersonaServiceImpl implements PersonaService {
         if (classes.equals("knight")) {
             character = new Knight();
             name = "raiden";
+        } else if (classes.equals("mage")) {
+            character = new Mage();
+            name = "albus";
+        } else if (classes.equals("priest")) {
+            character = new Priest();
+            name = "althea";
         }
+
         Persona persona = new Persona(character, name);
         return personaRepository.save(persona);
     }

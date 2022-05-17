@@ -1,8 +1,5 @@
 package id.ac.ui.cs.advprog.soulcatcher.main.core;
 
-import javax.persistence.Embeddable;
-
-@Embeddable
 public interface Classes {
     void setHp(int value);
     void setDamage(int value);
@@ -10,4 +7,5 @@ public interface Classes {
     int getHp();
     int getDamage();
     int getLevel();
+    void attack();
 }
