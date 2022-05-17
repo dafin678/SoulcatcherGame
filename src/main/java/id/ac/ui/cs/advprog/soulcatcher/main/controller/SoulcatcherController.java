@@ -50,6 +50,8 @@ public class SoulcatcherController {
             return "redirect:/login";
         }
 
+//        System.out.println(playerService.getPlayer(userValue.getUsername()).getPersonaInventory().getPlayer());
+
         return "dashboard";
     }
 

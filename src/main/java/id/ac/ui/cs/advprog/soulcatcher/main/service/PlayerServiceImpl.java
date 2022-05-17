@@ -2,9 +2,12 @@ package id.ac.ui.cs.advprog.soulcatcher.main.service;
 
 import id.ac.ui.cs.advprog.soulcatcher.main.model.Player;
 import id.ac.ui.cs.advprog.soulcatcher.main.repository.InventoryRepository;
+import id.ac.ui.cs.advprog.soulcatcher.main.repository.PersonaRepository;
 import id.ac.ui.cs.advprog.soulcatcher.main.repository.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 
 @Service
 public class PlayerServiceImpl implements PlayerService {
@@ -18,6 +21,12 @@ public class PlayerServiceImpl implements PlayerService {
     @Autowired
     InventoryRepository inventoryRepository;
 
+    @Autowired
+    PersonaService personaService;
+
+    @Autowired
+    PersonaInventoryService personaInventoryService;
+
     @Override
     public Player createPlayer(String username) {
         var player = new Player(username, username);
@@ -25,6 +34,11 @@ public class PlayerServiceImpl implements PlayerService {
         var inventory = inventoryService.createInventory(username);
 
         player.setPlayerInventory(inventory);
+
+        var personaInventory = personaInventoryService.createPersonaInventory(username);
+
+//        personaService.createPersona("knight", player);
+        player.setPersonaInventory(personaInventory);
 
         return playerRepository.save(player);
     }

@@ -17,6 +17,7 @@ public class Inventory {
     private String name;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JsonIgnore
     @JoinTable(
             name="consumable_inventory",
             joinColumns = @JoinColumn(name = "inventory_name"),
@@ -24,7 +25,6 @@ public class Inventory {
     )
     private List<Consumable> consumableList = new ArrayList<>();
 
-    @JsonIgnore
     @OneToOne(mappedBy = "playerInventory")
     private Player player;
 
