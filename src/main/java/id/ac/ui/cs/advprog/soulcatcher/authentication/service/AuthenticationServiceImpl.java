@@ -1,6 +1,6 @@
 package id.ac.ui.cs.advprog.soulcatcher.authentication.service;
 
-import id.ac.ui.cs.advprog.soulcatcher.authentication.Security.JwtUtils;
+import id.ac.ui.cs.advprog.soulcatcher.authentication.security.JwtUtils;
 import id.ac.ui.cs.advprog.soulcatcher.authentication.exception.UserNotFoundException;
 import id.ac.ui.cs.advprog.soulcatcher.authentication.model.User;
 import id.ac.ui.cs.advprog.soulcatcher.authentication.repository.UserRepository;
@@ -34,19 +34,22 @@ public class AuthenticationServiceImpl implements AuthenticationService{
     @Autowired
     private UserForgotPasswordService userForgotPasswordService;
 
+    private static final String USERNAME_VAR = "username";
+    private static final String PASSWORD_VAR = "password";
+    private static final String EMAIL_VAR = "email";
+
     @Override
     public String login(HttpServletRequest loginRequest) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getParameter("username"),
-                        loginRequest.getParameter("password")));
+        var authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.getParameter(USERNAME_VAR),
+                        loginRequest.getParameter(PASSWORD_VAR)));
         SecurityContextHolder.getContext().setAuthentication(authentication); // bukan masalah
-        String jwt = jwtUtils.generateJwtToken(authentication);
-        return jwt;
+        return jwtUtils.generateJwtToken(authentication);
     }
 
     @Override
     public String processForgotPassword(HttpServletRequest forgotPasswordRequest) throws UserNotFoundException, MessagingException {
-        String email = forgotPasswordRequest.getParameter("email");
+        String email = forgotPasswordRequest.getParameter(EMAIL_VAR);
         String token = userForgotPasswordService.generateSimpleToken();
         userForgotPasswordService.updateResetPasswordToken(token,email);
         String resetPasswordLink =  Utility.getSiteURL(forgotPasswordRequest) +"/reset_password?token=" + token;
@@ -57,8 +60,8 @@ public class AuthenticationServiceImpl implements AuthenticationService{
     @Override
     public String processResetPassword(HttpServletRequest forgotPasswordRequest){
         String token = forgotPasswordRequest.getParameter("token");
-        String password = forgotPasswordRequest.getParameter("password");
-        User user = userForgotPasswordService.getByResetPasswordToken(token);
+        String password = forgotPasswordRequest.getParameter(PASSWORD_VAR);
+        var user = userForgotPasswordService.getByResetPasswordToken(token);
         if(user == null){
             return "InvalidToken";
         }
@@ -68,7 +71,7 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 
     @Override
     public String showResetPasswordForm(@Param(value = "token") String token, Model model) {
-        User user = userForgotPasswordService.getByResetPasswordToken(token);
+        var user = userForgotPasswordService.getByResetPasswordToken(token);
         if(user == null){
             return "InvalidToken";
         }
@@ -78,14 +81,14 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 
     @Override
     public String register(HttpServletRequest registerRequest) {
-        if (userRepository.existsByUsername(registerRequest.getParameter("username"))) {
+        if (Boolean.TRUE.equals(userRepository.existsByUsername(registerRequest.getParameter(USERNAME_VAR)))) {
             return "UsernameExist";
         }
-        if(userRepository.existsByEmail(registerRequest.getParameter("email"))){
+        if(Boolean.TRUE.equals(userRepository.existsByEmail(registerRequest.getParameter(EMAIL_VAR)))){
             return "EmailExist";
         }
-        User user = new User(registerRequest.getParameter("username"),registerRequest.getParameter("email"),
-                encoder.encode(registerRequest.getParameter("password")));
+        var user = new User(registerRequest.getParameter(USERNAME_VAR),registerRequest.getParameter(EMAIL_VAR),
+                encoder.encode(registerRequest.getParameter(PASSWORD_VAR)));
         userRepository.save(user);
         return "Succesfull";
     }

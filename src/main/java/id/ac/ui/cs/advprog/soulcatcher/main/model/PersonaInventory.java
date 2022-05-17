@@ -1,7 +1,5 @@
 package id.ac.ui.cs.advprog.soulcatcher.main.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;

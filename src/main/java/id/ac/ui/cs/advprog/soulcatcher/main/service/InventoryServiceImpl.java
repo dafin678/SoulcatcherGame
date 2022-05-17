@@ -4,7 +4,6 @@ package id.ac.ui.cs.advprog.soulcatcher.main.service;
 import id.ac.ui.cs.advprog.soulcatcher.main.model.*;
 import id.ac.ui.cs.advprog.soulcatcher.main.repository.ConsumableRepository;
 import id.ac.ui.cs.advprog.soulcatcher.main.repository.InventoryRepository;
-import id.ac.ui.cs.advprog.soulcatcher.main.repository.PersonaInventoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +31,8 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Autowired
     PersonaInventoryService personaInventoryService;
+
+    private static final Random RAND = new Random();
 
     @Override
     public Inventory createInventory(String username) {
@@ -98,14 +99,13 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public String posses(Integer personaSoulId, Player player) {
-        Random rand = new Random();
         String[] classes = {"knight", "mage", "priest"};
-        String randomClass = classes[rand.nextInt(classes.length)];
-        Persona persona = personaService.createPersona(randomClass);
+        String randomClass = classes[RAND.nextInt(classes.length)];
+        var persona = personaService.createPersona(randomClass);
         Boolean isDuplicate = personaInventoryService.isPersonaDuplicate(player.getPersonaInventory(), persona);
         deletePersonaSoulFromInventory(player.getPlayerInventory(), personaSoulId);
 
-        if(!isDuplicate) {
+        if(Boolean.TRUE.equals(!isDuplicate)) {
             personaInventoryService.addPersonaToInventory(player.getPersonaInventory(), persona);
             return "success";
 

@@ -25,7 +25,7 @@ public class UserForgotPasswordServiceImpl implements UserForgotPasswordService 
 
     @Override
     public void updateResetPasswordToken(String token,String email) throws UserNotFoundException {
-        User user = userRepository.findByEmail(email);
+        var user = userRepository.findByEmail(email);
         if(user!=null){
             user.setResetPasswordToken(token);
             userRepository.save(user);
@@ -41,7 +41,7 @@ public class UserForgotPasswordServiceImpl implements UserForgotPasswordService 
 
     @Override
     public void updatePasswordUser(User user, String newPassword){
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        var passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(newPassword);
         user.setPassword(encodedPassword);
         user.setResetPasswordToken(null);
@@ -50,13 +50,13 @@ public class UserForgotPasswordServiceImpl implements UserForgotPasswordService 
 
     @Override
     public void sendEmail(String email, String resetPasswordLink) throws MessagingException {
-        MimeMessage message = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message);
+        var message = mailSender.createMimeMessage();
+        var helper = new MimeMessageHelper(message);
 
         helper.setFrom("contact@soulcatcher.com");
         helper.setTo(email);
 
-        String subject = "Here's link to reset your password";
+        var subject = "Here's link to reset your password";
         String content = "<p>Hello,<p>"
                 + "<p>Someone (hopefully you) has requested a password reset for your Soulcatcher account. " +
                 "Follow the link below to set a new password:</p>"

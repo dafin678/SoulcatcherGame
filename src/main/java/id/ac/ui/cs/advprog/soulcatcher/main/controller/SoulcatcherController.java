@@ -1,6 +1,6 @@
 package id.ac.ui.cs.advprog.soulcatcher.main.controller;
 
-import id.ac.ui.cs.advprog.soulcatcher.authentication.Security.JwtUtils;
+import id.ac.ui.cs.advprog.soulcatcher.authentication.security.JwtUtils;
 import id.ac.ui.cs.advprog.soulcatcher.main.model.Player;
 import id.ac.ui.cs.advprog.soulcatcher.main.service.InventoryService;
 import id.ac.ui.cs.advprog.soulcatcher.main.service.PlayerService;
@@ -32,6 +32,7 @@ public class SoulcatcherController {
     private JwtUtils jwtUtils;
 
     private Player player;
+    private static final String LOGIN_REDIRECT_VAR = "redirect:/login";
 
     @GetMapping("/dashboard")
     public String index(@CookieValue(name="jwttoken", defaultValue = "") String token) {
@@ -39,7 +40,7 @@ public class SoulcatcherController {
         try {
             username = jwtUtils.getUserNameFromJwtToken(token);
         } catch (Exception e) {
-            return "redirect:/login";
+            return LOGIN_REDIRECT_VAR;
         }
         var user = userService.getUserByUsername(username);
         User userValue = null;
@@ -50,7 +51,7 @@ public class SoulcatcherController {
             userValue.setPlayer(player);
             userService.save(user);
         } else {
-            return "redirect:/login";
+            return LOGIN_REDIRECT_VAR;
         }
 
         return "dashboard";
@@ -62,14 +63,14 @@ public class SoulcatcherController {
             model.addAttribute("consumables", player.getPlayerInventory().getConsumableList());
             return "inventory";
         } else {
-            return "redirect:/login";
+            return LOGIN_REDIRECT_VAR;
         }
     }
 
     @GetMapping(value = "/inventory/{consumableId}/delete-consumable")
     public String deleteConsumable(@PathVariable Integer consumableId) {
         if(player == null) {
-            return "redirect:/login";
+            return LOGIN_REDIRECT_VAR;
         }
         var inventory = player.getPlayerInventory();
         inventoryService.deleteConsumableFromInventory(inventory, consumableId);
@@ -83,14 +84,14 @@ public class SoulcatcherController {
             model.addAttribute("souls", player.getPlayerInventory().getPersonaSoulList());
             return "persona_souls_list";
         } else {
-            return "redirect:/login";
+            return LOGIN_REDIRECT_VAR;
         }
     }
 
     @GetMapping(value = "/inventory/{soulId}/delete-soul")
     public String deleteSoul(@PathVariable Integer soulId) {
         if(player == null) {
-            return "redirect:/login";
+            return LOGIN_REDIRECT_VAR;
         }
         var inventory = player.getPlayerInventory();
         inventoryService.deletePersonaSoulFromInventory(inventory, soulId);

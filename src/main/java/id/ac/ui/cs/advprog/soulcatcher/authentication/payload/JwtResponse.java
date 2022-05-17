@@ -1,7 +1,5 @@
 package id.ac.ui.cs.advprog.soulcatcher.authentication.payload;
 
-import java.util.List;
-
 public class JwtResponse {
     private String token;
     private String type = "Bearer";

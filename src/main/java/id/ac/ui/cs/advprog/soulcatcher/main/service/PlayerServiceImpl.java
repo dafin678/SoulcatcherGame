@@ -2,12 +2,9 @@ package id.ac.ui.cs.advprog.soulcatcher.main.service;
 
 import id.ac.ui.cs.advprog.soulcatcher.main.model.Player;
 import id.ac.ui.cs.advprog.soulcatcher.main.repository.InventoryRepository;
-import id.ac.ui.cs.advprog.soulcatcher.main.repository.PersonaRepository;
 import id.ac.ui.cs.advprog.soulcatcher.main.repository.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 
 @Service
 public class PlayerServiceImpl implements PlayerService {

@@ -1,4 +1,4 @@
-package id.ac.ui.cs.advprog.soulcatcher.authentication.Security;
+package id.ac.ui.cs.advprog.soulcatcher.authentication.security;
 
 import id.ac.ui.cs.advprog.soulcatcher.authentication.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
