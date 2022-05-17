@@ -101,7 +101,7 @@ public class InventoryServiceImpl implements InventoryService {
         Random rand = new Random();
         String[] classes = {"knight", "mage", "priest"};
         String randomClass = classes[rand.nextInt(classes.length)];
-        Persona persona = personaService.createPersona("knight");
+        Persona persona = personaService.createPersona(randomClass);
         Boolean isDuplicate = personaInventoryService.isPersonaDuplicate(player.getPersonaInventory(), persona);
         deletePersonaSoulFromInventory(player.getPlayerInventory(), personaSoulId);
 
