@@ -35,4 +35,10 @@ public abstract class Character implements Classes {
     public int getLevel() {
         return this.level;
     }
+
+    public void upgrade(int value){
+        setHp(getHp() + (int) 0.15 * getHp());
+        setDamage(getDamage() +  (int) 0.15 * getHp());
+        setLevel(getLevel() + 1);
+    }
 }
