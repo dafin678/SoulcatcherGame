@@ -8,13 +8,7 @@ public abstract class Character implements Classes {
     protected int damage;
     protected int level;
 
-//    public Classes(int hp, int damage, int level) {
-//        this.hp = hp;
-//        this.damage = damage;
-//        this.level = level;
-//    }
-
-    public Character() {
+    protected Character() {
         this.setLevel(1);
     }
 
@@ -41,6 +35,4 @@ public abstract class Character implements Classes {
     public int getLevel() {
         return this.level;
     }
-
-    public abstract void attack();
 }

@@ -2,6 +2,7 @@ package id.ac.ui.cs.advprog.soulcatcher.authentication.service;
 
 import java.util.Collection;
 
+import java.util.Collections;
 import java.util.Objects;
 
 import id.ac.ui.cs.advprog.soulcatcher.authentication.model.User;
@@ -55,7 +56,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override

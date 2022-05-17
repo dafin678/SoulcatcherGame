@@ -18,6 +18,11 @@ public class LoginController {
     @Autowired
     AuthenticationService authenticationService;
 
+    private static final String LOGIN_VAR = "login";
+    private static final String MESSAGE_VAR = "message";
+    private static final String REGISTER_VAR = "register";
+    private static final String FORGOT_VAR = "redirect:/forgotPass";
+
     @GetMapping("/")
     public String home() {
         return "home";
@@ -25,7 +30,7 @@ public class LoginController {
 
     @GetMapping("/login")
     public String login() {
-        return "login";
+        return LOGIN_VAR;
     }
 
     @PostMapping("/login")
@@ -34,28 +39,31 @@ public class LoginController {
         try {
             jwt = authenticationService.login(loginRequest);
         } catch (Exception e) {
-            model.addAttribute("message", "Username atau password yang anda masukkan salah");
-            return "login";
+            model.addAttribute(MESSAGE_VAR, "Username atau password yang anda masukkan salah");
+            return LOGIN_VAR;
         }
-        response.addCookie(new Cookie("jwttoken", jwt));
+        Cookie c = new Cookie("jwttoken", jwt);
+        c.setHttpOnly(true);
+        response.addCookie(c);
+
         return "redirect:/dashboard";
     }
 
     @GetMapping("/register")
     public String register() {
-        return "register";
+        return REGISTER_VAR;
     }
 
     @PostMapping("/register")
     public String register(HttpServletRequest registerRequest, Model model) {
         String response = authenticationService.register(registerRequest);
         if (response.equals("UsernameExist")) {
-            model.addAttribute("message", "Username sudah dipakai");
-            return "register";
+            model.addAttribute(MESSAGE_VAR, "Username sudah dipakai");
+            return REGISTER_VAR;
         }
         if (response.equals("EmailExist")) {
-            model.addAttribute("message", "Email sudah dipakai");
-            return "register";
+            model.addAttribute(MESSAGE_VAR, "Email sudah dipakai");
+            return REGISTER_VAR;
         }
         return "redirect:/login";
 
@@ -72,15 +80,15 @@ public class LoginController {
         try {
             String response = authenticationService.processForgotPassword(forgotPasswordRequest);
             if (response.equals("sentEmail")) {
-                model.addAttribute("message",
+                model.addAttribute(MESSAGE_VAR,
                         "Link to reset your password has been sent to your email");
-                return "login";
+                return LOGIN_VAR;
             }
         }catch(Exception ex){
             model.addAttribute("error",ex.getMessage());
             return "forgotPass";
         }
-        return "redirect:/forgotPass";
+        return FORGOT_VAR;
     }
 
     @GetMapping("/reset_password")
@@ -89,31 +97,21 @@ public class LoginController {
         if(response.equals("resetPasswordForm")){
             return "changePass";
         }
-        model.addAttribute("message","Invalid Token!");
-        return "redirect:/forgotPass";
+        model.addAttribute(MESSAGE_VAR,"Invalid Token!");
+        return FORGOT_VAR;
     }
 
     @PostMapping("/reset_password")
     public String processResetPassword(HttpServletRequest forgotPasswordRequest, Model model){
         String response = authenticationService.processResetPassword(forgotPasswordRequest);
         if(response.equals("InvalidToken")){
-            model.addAttribute("message","Invalid Token!");
-            return "redirect:/forgotPass";
+            model.addAttribute(MESSAGE_VAR,"Invalid Token!");
+            return FORGOT_VAR;
         }
         else if(response.equals("Password changed successfully")){
-            model.addAttribute("message","Password changed successfully");
+            model.addAttribute(MESSAGE_VAR,"Password changed successfully");
             return "redirect:/login";
         }
-        return "redirect:/forgotPass";
-    }
-
-    @GetMapping("/dummy")
-    public String dummy() {
-        return "dummy";
-    }
-
-    @GetMapping("/wrong")
-    public String wrong() {
-        return "wrong";
+        return FORGOT_VAR;
     }
 }

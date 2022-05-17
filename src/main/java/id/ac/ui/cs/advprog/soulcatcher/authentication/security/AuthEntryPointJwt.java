@@ -1,4 +1,4 @@
-package id.ac.ui.cs.advprog.soulcatcher.authentication.Security;
+package id.ac.ui.cs.advprog.soulcatcher.authentication.security;
 
 import java.io.IOException;
 import javax.servlet.ServletException;

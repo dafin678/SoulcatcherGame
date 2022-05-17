@@ -1,15 +1,13 @@
 package id.ac.ui.cs.advprog.soulcatcher.main.controller;
 
-import id.ac.ui.cs.advprog.soulcatcher.authentication.Security.JwtUtils;
+import id.ac.ui.cs.advprog.soulcatcher.authentication.security.JwtUtils;
 import id.ac.ui.cs.advprog.soulcatcher.authentication.model.User;
 import id.ac.ui.cs.advprog.soulcatcher.authentication.service.UserServiceImpl;
 import id.ac.ui.cs.advprog.soulcatcher.main.model.Inventory;
 import id.ac.ui.cs.advprog.soulcatcher.main.model.Player;
 import id.ac.ui.cs.advprog.soulcatcher.main.service.InventoryServiceImpl;
 import id.ac.ui.cs.advprog.soulcatcher.main.service.PlayerServiceImpl;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -47,7 +45,7 @@ public class SoulcatcherControllerTest {
     private SoulcatcherController controller;
 
     @Test
-    public void whenDashboardIsAccessedWithoutLoginShouldRedirectToLogin() throws Exception {
+    void whenDashboardIsAccessedWithoutLoginShouldRedirectToLogin() throws Exception {
         ReflectionTestUtils.setField(controller, "player", null);
 
         mockMvc.perform(get("/dashboard"))
@@ -56,7 +54,7 @@ public class SoulcatcherControllerTest {
     }
 
     @Test
-    public void whenDashboardIsAccessedShouldReturnDashboard() throws Exception {
+    void whenDashboardIsAccessedShouldReturnDashboard() throws Exception {
         Player player = new Player("Bintang", "Bintang");
         player.setPlayerInventory(new Inventory("Bintang"));
         ReflectionTestUtils.setField(controller, "player", player);
@@ -74,7 +72,7 @@ public class SoulcatcherControllerTest {
     }
 
     @Test
-    public void whenInventoryIsAccessedWithoutLoginShouldRedirectToLogin() throws Exception {
+    void whenInventoryIsAccessedWithoutLoginShouldRedirectToLogin() throws Exception {
         ReflectionTestUtils.setField(controller, "player", null);
 
         mockMvc.perform(get("/inventory"))
@@ -83,7 +81,7 @@ public class SoulcatcherControllerTest {
     }
 
     @Test
-    public void whenInventoryIsAccessedShouldReturnConsumablesList() throws Exception {
+    void whenInventoryIsAccessedShouldReturnConsumablesList() throws Exception {
         Player player = new Player("Bintang", "Bintang");
         player.setPlayerInventory(new Inventory("Bintang"));
         ReflectionTestUtils.setField(controller, "player", player);
@@ -95,7 +93,7 @@ public class SoulcatcherControllerTest {
     }
 
     @Test
-    public void whenDeleteConsumableIsAccessedWithoutLoginShouldRedirectToLogin() throws Exception {
+    void whenDeleteConsumableIsAccessedWithoutLoginShouldRedirectToLogin() throws Exception {
         ReflectionTestUtils.setField(controller, "player", null);
 
         mockMvc.perform(get("/inventory/1/delete-consumable"))
@@ -104,7 +102,7 @@ public class SoulcatcherControllerTest {
     }
 
     @Test
-    public void whenDeleteConsumableAccessedShouldCallInventoryService() throws Exception {
+    void whenDeleteConsumableAccessedShouldCallInventoryService() throws Exception {
         Player player = new Player("Bintang", "Bintang");
         player.setPlayerInventory(new Inventory("Bintang"));
         ReflectionTestUtils.setField(controller, "player", player);
