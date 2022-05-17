@@ -7,7 +7,8 @@ import id.ac.ui.cs.advprog.soulcatcher.main.model.Player;
 import java.util.List;
 
 public interface PersonaService {
-    Persona createPersona(String classes, PersonaInventory personaInventory);
-    Persona addPersona(Persona persona, PersonaInventory personaInventory);
+
+    Persona createPersona(String classes);
+
     List<Persona> getPersona(String username);
 }
