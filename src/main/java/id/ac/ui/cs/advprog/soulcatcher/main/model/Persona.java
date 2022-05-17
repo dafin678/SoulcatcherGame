@@ -1,9 +1,6 @@
 package id.ac.ui.cs.advprog.soulcatcher.main.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import id.ac.ui.cs.advprog.soulcatcher.main.core.Classes;
 import id.ac.ui.cs.advprog.soulcatcher.main.repository.PersonaInventoryRepository;
 import lombok.Data;
@@ -37,13 +34,11 @@ public class Persona {
     private String name;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JsonIgnore
     @JoinColumn(name = "persona_inventory_name")
     private PersonaInventory personaInventory;
 
-    public Persona(Classes persona_class, String name, PersonaInventory personaInventory) {
+    public Persona(Classes persona_class, String name) {
         this.persona_class = persona_class;
         this.name = name;
-        this.personaInventory = personaInventory;
     }
 }

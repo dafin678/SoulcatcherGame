@@ -1,6 +1,7 @@
 package id.ac.ui.cs.advprog.soulcatcher.main.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -22,12 +23,13 @@ public class PersonaInventory {
     @OneToOne(mappedBy = "personaInventory")
     private Player player;
 
-    @OneToMany(mappedBy = "personaInventory", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
-    private List<Persona> personaList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "personaInventory", cascade = CascadeType.ALL)
+    private List<Persona> personaList;
 
     public PersonaInventory(String name) {
         this.name=name;
+        this.personaList = new ArrayList<>();
     }
 
 
