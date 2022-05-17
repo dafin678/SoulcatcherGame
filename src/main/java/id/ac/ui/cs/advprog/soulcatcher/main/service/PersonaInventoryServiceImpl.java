@@ -23,7 +23,6 @@ public class PersonaInventoryServiceImpl implements PersonaInventoryService {
         PersonaInventory personaInventory = new PersonaInventory(username);
 
         Persona persona = personaService.createPersona("knight", personaInventory);
-
 //        addPersonaToInventory(personaInventory, persona);
         return personaInventoryRepository.save(personaInventory);
     }
@@ -32,6 +31,7 @@ public class PersonaInventoryServiceImpl implements PersonaInventoryService {
     @Override
     public PersonaInventory addPersonaToInventory(PersonaInventory personaInventory, Persona persona) {
         List<Persona> personaList = personaInventory.getPersonaList();
+//        System.out.println(persona.getName());
         personaList.add(persona);
         return personaInventoryRepository.save(personaInventory);
     }

@@ -11,6 +11,7 @@ import id.ac.ui.cs.advprog.soulcatcher.main.repository.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -33,7 +34,7 @@ public class PersonaServiceImpl implements PersonaService {
             character = new Knight();
             name = "raiden";
         }
-        Persona persona = new Persona(character, name, personaInventory);
+        Persona persona = new Persona(character, name);
         addPersona(persona, personaInventory);
 
         return personaRepository.save(persona);
@@ -43,8 +44,6 @@ public class PersonaServiceImpl implements PersonaService {
     public Persona addPersona(Persona persona, PersonaInventory personaInventory) {
         List<Persona> personaList = personaInventory.getPersonaList();
         personaList.add(persona);
-//        System.out.println(personaList.get(0));
-
         return personaRepository.save(persona);
     }
 

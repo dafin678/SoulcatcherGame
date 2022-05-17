@@ -39,6 +39,7 @@ public class PlayerServiceImpl implements PlayerService {
 
 //        personaService.createPersona("knight", player);
         player.setPersonaInventory(personaInventory);
+        System.out.println(player.getPersonaInventory());
 
         return playerRepository.save(player);
     }
