@@ -8,4 +8,5 @@ public interface Classes {
     int getDamage();
     int getLevel();
     void attack();
+    void upgrade();
 }

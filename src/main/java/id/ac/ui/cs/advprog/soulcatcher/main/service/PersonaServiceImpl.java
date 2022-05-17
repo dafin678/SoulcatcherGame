@@ -49,4 +49,11 @@ public class PersonaServiceImpl implements PersonaService {
     public List<Persona> getPersona(String username) {
         return personaRepository.findAll();
     }
+
+    @Override
+    public Persona upgradePersona(Persona persona) {
+        persona.getPersonaClass().upgrade();
+        return persona;
+
+    }
 }
