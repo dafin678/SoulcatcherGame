@@ -21,8 +21,6 @@ public class PersonaInventoryServiceImpl implements PersonaInventoryService {
     @Override
     public PersonaInventory createPersonaInventory(String username) {
         PersonaInventory personaInventory = new PersonaInventory(username);
-//        Persona persona = personaService.createPersona("knight");
-//        addPersonaToInventory(personaInventory, persona);
         return personaInventoryRepository.save(personaInventory);
     }
 

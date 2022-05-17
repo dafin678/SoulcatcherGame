@@ -41,16 +41,11 @@ public class InventoryServiceImpl implements InventoryService {
         var apple = consumableService.createConsumable("Apple", "Memulihkan 100 mana points");
         var starshroom = consumableService.createConsumable("Starshroom ", "Memulihkan 200 HP points");
         var personaSoul = personaSoulService.createPersonaSoul();
-        var personaSoul2 = personaSoulService.createPersonaSoul();
-        var personaSoul3 = personaSoulService.createPersonaSoul();
-
 
         addConsumableToInventory(playerInventory, sunsettia);
         addConsumableToInventory(playerInventory, starshroom);
         addConsumableToInventory(playerInventory, apple);
         addPersonaSoulToInventory(playerInventory, personaSoul);
-        addPersonaSoulToInventory(playerInventory, personaSoul2);
-        addPersonaSoulToInventory(playerInventory, personaSoul3);
 
         return inventoryRepository.save(playerInventory);
     }
