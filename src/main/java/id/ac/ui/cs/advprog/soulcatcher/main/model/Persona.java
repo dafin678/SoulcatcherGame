@@ -1,12 +1,9 @@
 package id.ac.ui.cs.advprog.soulcatcher.main.model;
 
-import com.fasterxml.jackson.annotation.*;
-import id.ac.ui.cs.advprog.soulcatcher.main.core.Classes;
-import id.ac.ui.cs.advprog.soulcatcher.main.repository.PersonaInventoryRepository;
+import id.ac.ui.cs.advprog.soulcatcher.authentication.model.User;
+import id.ac.ui.cs.advprog.soulcatcher.main.core.persona.Classes;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.ManyToAny;
 
 import javax.persistence.*;
 
@@ -36,6 +33,7 @@ public class Persona {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "persona_inventory_name")
     private PersonaInventory personaInventory;
+
 
     public Persona(Classes persona_class, String name) {
         this.persona_class = persona_class;

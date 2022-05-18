@@ -37,9 +37,7 @@ public class PlayerServiceImpl implements PlayerService {
 
         var personaInventory = personaInventoryService.createPersonaInventory(username);
 
-//        personaService.createPersona("knight", player);
         player.setPersonaInventory(personaInventory);
-        System.out.println(player.getPersonaInventory());
 
         return playerRepository.save(player);
     }

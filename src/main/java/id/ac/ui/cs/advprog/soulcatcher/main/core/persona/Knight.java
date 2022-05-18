@@ -1,4 +1,6 @@
-package id.ac.ui.cs.advprog.soulcatcher.main.core;
+package id.ac.ui.cs.advprog.soulcatcher.main.core.persona;
+
+import id.ac.ui.cs.advprog.soulcatcher.main.core.persona.Classes;
 
 public class Knight implements Classes {
     int hp;

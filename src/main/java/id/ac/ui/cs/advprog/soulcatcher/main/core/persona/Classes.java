@@ -1,4 +1,4 @@
-package id.ac.ui.cs.advprog.soulcatcher.main.core;
+package id.ac.ui.cs.advprog.soulcatcher.main.core.persona;
 
 import javax.persistence.Embeddable;
 

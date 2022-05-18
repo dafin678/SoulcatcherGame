@@ -1,12 +1,13 @@
 package id.ac.ui.cs.advprog.soulcatcher.main.service;
 
-import id.ac.ui.cs.advprog.soulcatcher.main.core.Classes;
+import id.ac.ui.cs.advprog.soulcatcher.main.core.persona.Classes;
 import id.ac.ui.cs.advprog.soulcatcher.main.model.Persona;
 import id.ac.ui.cs.advprog.soulcatcher.main.model.PersonaInventory;
 import id.ac.ui.cs.advprog.soulcatcher.main.repository.PersonaInventoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -22,7 +23,7 @@ public class PersonaInventoryServiceImpl implements PersonaInventoryService {
     public PersonaInventory createPersonaInventory(String username) {
         PersonaInventory personaInventory = new PersonaInventory(username);
 
-        Persona persona = personaService.createPersona("knight", personaInventory);
+//        Persona persona = personaService.createPersona("knight", personaInventory);
 //        addPersonaToInventory(personaInventory, persona);
         return personaInventoryRepository.save(personaInventory);
     }
@@ -34,6 +35,20 @@ public class PersonaInventoryServiceImpl implements PersonaInventoryService {
 //        System.out.println(persona.getName());
         personaList.add(persona);
         return personaInventoryRepository.save(personaInventory);
+    }
+
+    @Override
+    public boolean isPersonaDuplicate(PersonaInventory personaInventory, Persona persona) {
+        List<Persona> personaList = personaInventory.getPersonaList();
+        Iterator<Persona> itr = personaList.iterator();
+
+        while(itr.hasNext()) {
+            String name = itr.next().getName();
+            if(name.equals(persona.getName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

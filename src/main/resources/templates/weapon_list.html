@@ -31,8 +31,8 @@
             <div class="row">
                 <div class="col-3">
                     <div class="list-group">
-                        <a href="/inventory" class="list-group-item list-group-item-action active">Consumables</a>
-                        <a href="/inventory/weapons" class="list-group-item list-group-item-action">Weapons</a>
+                        <a href="/inventory" class="list-group-item list-group-item-action">Consumables</a>
+                        <a href="/inventory/weapons" class="list-group-item list-group-item-action active">Weapons</a>
                         <a href="#" class="list-group-item list-group-item-action">Armors</a>
                         <a href="/inventory/persona-souls" class="list-group-item list-group-item-action">Persona Souls</a>
                     </div>
@@ -41,19 +41,18 @@
                 <div class="col-9">
                     <div class="row">
 
-                        <div th:each="consumable : ${consumables}" class="col-lg-3 col-md-4 col-sm-6" >
+                        <div th:each="weapon : ${weapons}" class="col-lg-3 col-md-4 col-sm-6" >
                             <div class="card mb-3 w-100 h-85">
                                 <div class="card-body">
-                                    <h5 th:text="${consumable.getName()}" class="card-title"></h5>
-                                    <h6 class="card-subtitle mb-2 text-muted">Consumable</h6>
-                                    <p th:text="${consumable.getDescription()}" class="card-text"></p>
+                                    <h5 th:text="${weapon.getWeaponName()}" class="card-title"></h5>
+                                    <h6 class="card-subtitle mb-2 text-muted">Name</h6>
+                                    <p th:text="${weapon.getWeaponType()}" class="card-text"></p>
                                     <a class="btn btn-light">Use</a>
-                                    <a class="btn btn-dark" th:href="@{inventory/{id}/delete-consumable(id=${consumable.getId()})}">
+                                    <a class="btn btn-dark" th:href="@{/inventory/{name}/delete-weapon(name=${weapon.getWeaponName()})}">
                                         Remove</a>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>

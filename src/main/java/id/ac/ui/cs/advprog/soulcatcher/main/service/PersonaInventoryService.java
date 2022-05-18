@@ -6,4 +6,5 @@ import id.ac.ui.cs.advprog.soulcatcher.main.model.PersonaInventory;
 public interface PersonaInventoryService {
     PersonaInventory createPersonaInventory(String username);
     PersonaInventory addPersonaToInventory(PersonaInventory personaInventory, Persona persona);
+    boolean isPersonaDuplicate(PersonaInventory personaInventory, Persona persona);
 }
