@@ -114,9 +114,6 @@ public class SoulcatcherController {
 
     @GetMapping(value = "/inventory/upgrade")
     public String upgradePersona(Model model){
-        if (player.getSoulFragment() < 2){
-            return LOGIN_REDIRECT_VAR;
-        }
         return "redirect:/inventory/upgrade";
     }
 

@@ -45,7 +45,8 @@ public class Persona {
     @JoinColumn(name = "persona_inventory_name")
     private PersonaInventory personaInventory;
 
-
+    @Column
+    private int soulFragment = 0;
 
 
     public Persona(String name, int hp, int damage, int level, String personaClass) {
