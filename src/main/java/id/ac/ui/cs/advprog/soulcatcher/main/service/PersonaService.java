@@ -9,7 +9,4 @@ public interface PersonaService {
     Persona createPersona(String classes);
 
     List<Persona> getPersona(String username);
-
-    Persona upgradePersona(Persona persona);
-
 }

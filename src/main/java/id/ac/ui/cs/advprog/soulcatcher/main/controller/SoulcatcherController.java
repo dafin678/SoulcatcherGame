@@ -1,7 +1,6 @@
 package id.ac.ui.cs.advprog.soulcatcher.main.controller;
 
 import id.ac.ui.cs.advprog.soulcatcher.authentication.security.JwtUtils;
-import id.ac.ui.cs.advprog.soulcatcher.main.model.Persona;
 import id.ac.ui.cs.advprog.soulcatcher.main.model.Player;
 import id.ac.ui.cs.advprog.soulcatcher.main.service.InventoryService;
 import id.ac.ui.cs.advprog.soulcatcher.main.service.PlayerService;
@@ -33,9 +32,6 @@ public class SoulcatcherController {
     private JwtUtils jwtUtils;
 
     private Player player;
-
-    private Persona persona;
-
     private static final String LOGIN_REDIRECT_VAR = "redirect:/login";
 
     @GetMapping("/dashboard")
@@ -107,13 +103,5 @@ public class SoulcatcherController {
     public @ResponseBody ResponseEntity<String> posses(@PathVariable Integer soulId) {
             String result = inventoryService.posses(soulId, player);
             return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/inventory/upgrade")
-    public String upgradePersona(Model model){
-        if (persona.getSoulFragment() < 2){
-            return LOGIN_REDIRECT_VAR;
-        }
-        return "redirect:/inventory/upgrade";
     }
 }
