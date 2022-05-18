@@ -13,8 +13,4 @@ public class Knight extends Character {
         // untuk implementasi pve nanti
     }
 
-    @Override
-    public void upgrade() {
-
-    }
 }

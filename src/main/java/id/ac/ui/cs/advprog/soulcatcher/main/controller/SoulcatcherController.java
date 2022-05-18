@@ -38,9 +38,6 @@ public class SoulcatcherController {
 
     private Player player;
 
-    private Persona persona;
-
-
 
     private static final String LOGIN_REDIRECT_VAR = "redirect:/login";
 
@@ -117,7 +114,7 @@ public class SoulcatcherController {
 
     @GetMapping(value = "/inventory/upgrade")
     public String upgradePersona(Model model){
-        if (persona.getSoulFragment() < 2){
+        if (player.getSoulFragment() < 2){
             return LOGIN_REDIRECT_VAR;
         }
         return "redirect:/inventory/upgrade";
@@ -129,7 +126,7 @@ public class SoulcatcherController {
             model.addAttribute("weapons", player.getPlayerInventory().getWeaponList());
             return "weapon_list";
         } else {
-            return "redirect:/login";
+            return LOGIN_REDIRECT_VAR;
         }
     }
 

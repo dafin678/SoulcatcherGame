@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class WeaponServiceImplTest {
+class WeaponServiceImplTest {
     @Mock
     private WeaponRepository weaponRepository;
 

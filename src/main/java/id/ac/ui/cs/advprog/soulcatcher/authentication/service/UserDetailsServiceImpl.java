@@ -1,7 +1,6 @@
 package id.ac.ui.cs.advprog.soulcatcher.authentication.service;
 
 
-import id.ac.ui.cs.advprog.soulcatcher.authentication.model.User;
 import id.ac.ui.cs.advprog.soulcatcher.authentication.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
