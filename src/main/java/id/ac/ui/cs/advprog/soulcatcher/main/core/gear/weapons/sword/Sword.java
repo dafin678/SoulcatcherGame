@@ -14,7 +14,7 @@ public abstract class Sword implements WeaponUse{
     protected String name;
     protected int powerDamage;
 
-    public Sword(){
+    protected Sword(){
         this.type= WeaponType.SWORD.toString();
     }
 

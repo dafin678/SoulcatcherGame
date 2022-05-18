@@ -33,7 +33,7 @@ public abstract class Character implements Classes {
         return this.level;
     }
 
-    public void upgrade(int value){
+    public void upgrade(){
         setHp(getHp() + (int) 0.15 * getHp());
         setDamage(getDamage() +  (int) 0.15 * getHp());
         setLevel(getLevel() + 1);
