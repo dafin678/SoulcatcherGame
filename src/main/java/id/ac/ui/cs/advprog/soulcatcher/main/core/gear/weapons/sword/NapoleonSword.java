@@ -1,6 +1,6 @@
 package id.ac.ui.cs.advprog.soulcatcher.main.core.gear.weapons.sword;
 
-import id.ac.ui.cs.advprog.soulcatcher.main.core.gear.weapons.WeaponType;
+
 
 public class NapoleonSword extends Sword{
 

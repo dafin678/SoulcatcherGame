@@ -45,7 +45,9 @@
               <div class="card mb-3 w-100 h-85">
                 <div class="card-body">
                   <h5 th:text="${weapon.getWeaponName()}" class="card-title"></h5>
-                  <h6 class="card-subtitle mb-2 text-muted">Name</h6>
+                  <h6 class="card-subtitle mb-2 text-muted">Power Damage</h6>
+                  <h5 th:text="${weapon.getWeaponDamage()}" class="card-title"></h5>
+                  <h6 class="card-subtitle mb-2 text-muted">Type</h6>
                   <p th:text="${weapon.getWeaponType()}" class="card-text"></p>
                   <a class="btn btn-light">Use</a>
                   <a class="btn btn-dark" th:href="@{/inventory/{name}/delete-weapon(name=${weapon.getWeaponName()})}">

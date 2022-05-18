@@ -7,6 +7,7 @@ import id.ac.ui.cs.advprog.soulcatcher.main.model.Inventory;
 import id.ac.ui.cs.advprog.soulcatcher.main.model.Player;
 import id.ac.ui.cs.advprog.soulcatcher.main.service.InventoryServiceImpl;
 import id.ac.ui.cs.advprog.soulcatcher.main.service.PlayerServiceImpl;
+import id.ac.ui.cs.advprog.soulcatcher.main.service.WeaponServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -16,6 +17,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.http.MediaType;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -40,6 +43,9 @@ class SoulcatcherControllerTest {
 
     @MockBean
     private InventoryServiceImpl inventoryService;
+
+    @MockBean
+    private WeaponServiceImpl weaponService;
 
     @MockBean
     private JwtUtils jwtUtils;
@@ -95,6 +101,8 @@ class SoulcatcherControllerTest {
                 .andExpect(view().name("inventory"));
     }
 
+
+
     @Test
     void whenDeleteConsumableIsAccessedWithoutLoginShouldRedirectToLogin() throws Exception {
         ReflectionTestUtils.setField(controller, "player", null);
@@ -138,6 +146,19 @@ class SoulcatcherControllerTest {
                 .andExpect(model().attributeExists("souls"))
                 .andExpect(view().name("persona_souls_list"));
     }
+
+    @Test
+    void whenInventoryIsAccesedShouldReturnWeaponList() throws Exception {
+        Player player = new Player("Dafin", "Dafin");
+        player.setPlayerInventory(new Inventory("Tas Dafin"));
+        ReflectionTestUtils.setField(controller,"player",player);
+
+        mockMvc.perform(get("/inventory/weapons"))
+                .andExpect(handler().methodName("listWeapon"))
+                .andExpect(model().attributeExists("weapons"))
+                .andExpect(view().name("weapon_list"));
+    }
+
 
     @Test
     void whenDeletePersonaSoulIsAccessedWithoutLoginShouldRedirectToLogin() throws Exception {
