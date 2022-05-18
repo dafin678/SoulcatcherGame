@@ -99,17 +99,19 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public String posses(Integer personaSoulId, Player player) {
-        String[] classes = {"knight", "mage", "priest"};
-        String randomClass = classes[RAND.nextInt(classes.length)];
-        var persona = personaService.createPersona(randomClass);
-        Boolean isDuplicate = personaInventoryService.isPersonaDuplicate(player.getPersonaInventory(), persona);
+        var classes =  new String[]{"knight", "mage", "priest"};
+        var randomClass = classes[RAND.nextInt(classes.length)];
+        var newPersona = personaService.createPersona(randomClass);
+        var checkPersona = personaInventoryService.isPersonaDuplicate(player.getPersonaInventory(), newPersona);
         deletePersonaSoulFromInventory(player.getPlayerInventory(), personaSoulId);
 
-        if(Boolean.TRUE.equals(!isDuplicate)) {
-            personaInventoryService.addPersonaToInventory(player.getPersonaInventory(), persona);
+        if(checkPersona == null) {
+            personaInventoryService.addPersonaToInventory(player.getPersonaInventory(), newPersona);
             return "success";
 
         } else {
+            var oldSoulFragment = checkPersona.getSoulFragment();
+            checkPersona.setSoulFragment(oldSoulFragment + 3);
             return "duplicate";
         }
     }
