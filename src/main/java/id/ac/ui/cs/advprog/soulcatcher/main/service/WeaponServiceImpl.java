@@ -29,7 +29,6 @@ public class WeaponServiceImpl implements WeaponService{
         }
         return  null;
     }
-
     @Override
     public List<Weapon> getWeapon() {
         return weaponRepository.findAll();
