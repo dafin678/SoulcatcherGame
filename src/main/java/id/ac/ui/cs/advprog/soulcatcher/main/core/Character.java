@@ -1,8 +1,5 @@
 package id.ac.ui.cs.advprog.soulcatcher.main.core;
 
-import javax.persistence.Embeddable;
-
-@Embeddable
 public abstract class Character implements Classes {
     protected int hp;
     protected int damage;
