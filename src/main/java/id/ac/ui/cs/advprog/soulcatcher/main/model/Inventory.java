@@ -37,6 +37,15 @@ public class Inventory {
     )
     private List<PersonaSoul> personaSoulList = new ArrayList<>();
 
+    @ManyToMany
+    @JsonIgnore
+    @JoinTable(
+            name="weapon_inventory",
+            joinColumns = @JoinColumn(name = "inventory_name"),
+            inverseJoinColumns = @JoinColumn(name = "weapon_name")
+    )
+    private List<Weapon> weaponList = new ArrayList<>();
+
     @OneToOne(mappedBy = "playerInventory")
     private Player player;
 

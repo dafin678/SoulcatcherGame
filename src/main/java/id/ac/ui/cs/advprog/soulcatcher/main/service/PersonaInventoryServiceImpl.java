@@ -34,17 +34,17 @@ public class PersonaInventoryServiceImpl implements PersonaInventoryService {
     }
 
     @Override
-    public boolean isPersonaDuplicate(PersonaInventory personaInventory, Persona persona) {
+    public Persona isPersonaDuplicate(PersonaInventory personaInventory, Persona persona) {
         List<Persona> personaList = personaInventory.getPersonaList();
         Iterator<Persona> itr = personaList.iterator();
 
         while(itr.hasNext()) {
-            String name = itr.next().getName();
-            if(name.equals(persona.getName())) {
-                return true;
+            var personaItr = itr.next();
+            if(personaItr.getName().equals(persona.getName())) {
+                return personaItr;
             }
         }
-        return false;
+        return null;
     }
 
     @Override
