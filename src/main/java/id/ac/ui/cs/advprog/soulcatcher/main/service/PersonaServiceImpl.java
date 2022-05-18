@@ -1,10 +1,7 @@
 package id.ac.ui.cs.advprog.soulcatcher.main.service;
 
 
-import id.ac.ui.cs.advprog.soulcatcher.main.core.factory.personafactory.PersonaFactory;
-import id.ac.ui.cs.advprog.soulcatcher.main.core.persona.Classes;
-import id.ac.ui.cs.advprog.soulcatcher.main.core.persona.Knight;
-import id.ac.ui.cs.advprog.soulcatcher.main.core.persona.PersonaType;
+import id.ac.ui.cs.advprog.soulcatcher.main.core.persona.*;
 import id.ac.ui.cs.advprog.soulcatcher.main.model.Persona;
 import id.ac.ui.cs.advprog.soulcatcher.main.repository.PersonaInventoryRepository;
 import id.ac.ui.cs.advprog.soulcatcher.main.repository.PersonaRepository;
@@ -28,14 +25,24 @@ public class PersonaServiceImpl implements PersonaService {
 
     @Override
     public Persona createPersona(String classes) {
+        Classes character = null;
+        var name = "";
 
-        String name = "raiden";
+        if (classes.equals("knight")) {
+            character = new Knight();
+            name = "raiden";
+        } else if (classes.equals("mage")) {
+            character = new Mage();
+            name = "albus";
+        } else if (classes.equals("priest")) {
+            character = new Priest();
+            name = "althea";
+        }
 
-        Classes character = PersonaFactory.createPersona(classes);
-
-        Persona persona = new Persona(character, name);
+        var persona = new Persona(character, name);
         return personaRepository.save(persona);
     }
+
 
 
 
@@ -43,4 +50,11 @@ public class PersonaServiceImpl implements PersonaService {
     public List<Persona> getPersona(String username) {
         return personaRepository.findAll();
     }
+
+    @Override
+    public Persona upgradePersona(Persona persona) {
+        persona.getPersonaClass().upgrade();
+        return persona;
+    }
+
 }

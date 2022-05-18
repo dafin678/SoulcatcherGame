@@ -1,4 +1,4 @@
-package id.ac.ui.cs.advprog.soulcatcher.main.core.factory.weaponusefactory;
+package id.ac.ui.cs.advprog.soulcatcher.main.core.factory.weaponfactory;
 
 import id.ac.ui.cs.advprog.soulcatcher.main.core.gear.weapons.sword.NapoleonSword;
 import id.ac.ui.cs.advprog.soulcatcher.main.core.gear.weapons.sword.SimitarSword;

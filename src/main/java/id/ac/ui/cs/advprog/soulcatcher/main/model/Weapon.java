@@ -22,9 +22,6 @@ public class Weapon {
     @NonNull
     private String weaponName;
 
-//    @Column(name = "weapon_class")
-//    @Embedded
-//    private WeaponUse weaponClass;
 
     @Column(name="weapon_type")
     private String weaponType;

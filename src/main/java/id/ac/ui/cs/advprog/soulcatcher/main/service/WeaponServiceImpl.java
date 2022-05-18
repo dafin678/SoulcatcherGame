@@ -1,9 +1,8 @@
 package id.ac.ui.cs.advprog.soulcatcher.main.service;
 
-import id.ac.ui.cs.advprog.soulcatcher.main.core.factory.weaponusefactory.SwordFactory;
+import id.ac.ui.cs.advprog.soulcatcher.main.core.factory.weaponfactory.SwordFactory;
 import id.ac.ui.cs.advprog.soulcatcher.main.core.gear.weapons.WeaponType;
 import id.ac.ui.cs.advprog.soulcatcher.main.core.gear.weapons.WeaponUse;
-import id.ac.ui.cs.advprog.soulcatcher.main.core.gear.weapons.sword.SwordType;
 import id.ac.ui.cs.advprog.soulcatcher.main.model.Weapon;
 import id.ac.ui.cs.advprog.soulcatcher.main.repository.WeaponRepository;
 import org.springframework.beans.factory.annotation.Autowired;

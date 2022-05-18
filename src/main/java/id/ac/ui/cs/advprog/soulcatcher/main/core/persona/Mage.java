@@ -2,12 +2,11 @@ package id.ac.ui.cs.advprog.soulcatcher.main.core.persona;
 
 import id.ac.ui.cs.advprog.soulcatcher.main.core.Character;
 
-public class Knight extends Character {
-
-    public Knight() {
+public class Mage extends Character {
+    public Mage() {
         super();
-        this.setHp(200);
-        this.setDamage(50);
+        this.setHp(150);
+        this.setDamage(30);
     }
 
     @Override

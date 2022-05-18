@@ -1,6 +1,5 @@
 package id.ac.ui.cs.advprog.soulcatcher.main.model;
 
-import id.ac.ui.cs.advprog.soulcatcher.authentication.model.User;
 import id.ac.ui.cs.advprog.soulcatcher.main.core.persona.Classes;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,12 +19,7 @@ public class Persona {
 
     @Column(name = "class")
     @Embedded
-//    @AttributeOverrides({
-//            @AttributeOverride( name = "hp", column = @Column(name = "hp")),
-//            @AttributeOverride( name = "damage", column = @Column(name = "damage")),
-//            @AttributeOverride( name = "level", column = @Column(name = "level"))
-//    })
-    private Classes persona_class;
+    private Classes personaClass;
 
     @Column(name = "name")
     private String name;
@@ -34,9 +28,12 @@ public class Persona {
     @JoinColumn(name = "persona_inventory_name")
     private PersonaInventory personaInventory;
 
+    @Column
+    private int soulFragment = 0;
 
-    public Persona(Classes persona_class, String name) {
-        this.persona_class = persona_class;
+
+    public Persona(Classes personaClass, String name) {
+        this.personaClass = personaClass;
         this.name = name;
     }
 }

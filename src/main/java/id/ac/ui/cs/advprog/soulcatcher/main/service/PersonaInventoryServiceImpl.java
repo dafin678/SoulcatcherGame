@@ -1,6 +1,5 @@
 package id.ac.ui.cs.advprog.soulcatcher.main.service;
 
-import id.ac.ui.cs.advprog.soulcatcher.main.core.persona.Classes;
 import id.ac.ui.cs.advprog.soulcatcher.main.model.Persona;
 import id.ac.ui.cs.advprog.soulcatcher.main.model.PersonaInventory;
 import id.ac.ui.cs.advprog.soulcatcher.main.repository.PersonaInventoryRepository;
@@ -21,34 +20,29 @@ public class PersonaInventoryServiceImpl implements PersonaInventoryService {
 
     @Override
     public PersonaInventory createPersonaInventory(String username) {
-        PersonaInventory personaInventory = new PersonaInventory(username);
-
-//        Persona persona = personaService.createPersona("knight", personaInventory);
-//        addPersonaToInventory(personaInventory, persona);
+        var personaInventory = new PersonaInventory(username);
         return personaInventoryRepository.save(personaInventory);
     }
 
-    //yang ini gak kepake dulu sementara
     @Override
     public PersonaInventory addPersonaToInventory(PersonaInventory personaInventory, Persona persona) {
         List<Persona> personaList = personaInventory.getPersonaList();
-//        System.out.println(persona.getName());
         personaList.add(persona);
         return personaInventoryRepository.save(personaInventory);
     }
 
     @Override
-    public boolean isPersonaDuplicate(PersonaInventory personaInventory, Persona persona) {
+    public Persona isPersonaDuplicate(PersonaInventory personaInventory, Persona persona) {
         List<Persona> personaList = personaInventory.getPersonaList();
         Iterator<Persona> itr = personaList.iterator();
 
         while(itr.hasNext()) {
-            String name = itr.next().getName();
-            if(name.equals(persona.getName())) {
-                return true;
+            var personaItr = itr.next();
+            if(personaItr.getName().equals(persona.getName())) {
+                return personaItr;
             }
         }
-        return false;
+        return null;
     }
 
 }
