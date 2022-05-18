@@ -28,6 +28,10 @@ public class Persona {
     @JoinColumn(name = "persona_inventory_name")
     private PersonaInventory personaInventory;
 
+    @Column
+    private int soulFragment = 0;
+
+
     public Persona(Classes personaClass, String name) {
         this.personaClass = personaClass;
         this.name = name;
