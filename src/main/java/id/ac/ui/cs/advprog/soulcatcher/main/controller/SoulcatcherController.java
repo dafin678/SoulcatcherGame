@@ -3,7 +3,9 @@ package id.ac.ui.cs.advprog.soulcatcher.main.controller;
 import id.ac.ui.cs.advprog.soulcatcher.authentication.security.JwtUtils;
 import id.ac.ui.cs.advprog.soulcatcher.main.model.Persona;
 import id.ac.ui.cs.advprog.soulcatcher.main.model.Player;
+import id.ac.ui.cs.advprog.soulcatcher.main.repository.PersonaInventoryRepository;
 import id.ac.ui.cs.advprog.soulcatcher.main.service.InventoryService;
+import id.ac.ui.cs.advprog.soulcatcher.main.service.PersonaInventoryService;
 import id.ac.ui.cs.advprog.soulcatcher.main.service.PlayerService;
 import id.ac.ui.cs.advprog.soulcatcher.authentication.model.User;
 import id.ac.ui.cs.advprog.soulcatcher.authentication.service.UserService;
@@ -30,7 +32,13 @@ public class SoulcatcherController {
     private InventoryService inventoryService;
 
     @Autowired
+    private PersonaInventoryService personaInventoryService;
+
+    @Autowired
     private JwtUtils jwtUtils;
+
+    @Autowired
+    private PersonaInventoryRepository personaInventoryRepository;
 
     private Player player;
 
@@ -115,5 +123,15 @@ public class SoulcatcherController {
             return LOGIN_REDIRECT_VAR;
         }
         return "redirect:/inventory/upgrade";
+    }
+
+    @GetMapping(value = "/persona-inventory")
+    public String listPersona(Model model) {
+        if(player != null) {
+            model.addAttribute("personas", personaInventoryService.getPersonaList(personaInventoryRepository.findPersonaInventoriesByName(player.getName())));
+            return "persona_list";
+        } else {
+            return LOGIN_REDIRECT_VAR;
+        }
     }
 }
