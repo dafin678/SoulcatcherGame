@@ -32,6 +32,10 @@ public class InventoryServiceImpl implements InventoryService {
     @Autowired
     PersonaInventoryService personaInventoryService;
 
+    @Autowired
+    WeaponService weaponService;
+
+
     private static final Random RAND = new Random();
 
     @Override
@@ -43,12 +47,39 @@ public class InventoryServiceImpl implements InventoryService {
         var starshroom = consumableService.createConsumable("Starshroom ", "Memulihkan 200 HP points");
         var personaSoul = personaSoulService.createPersonaSoul();
 
+        var weapon1 =weaponService.createWeapon("Simitar","Sword");
+        var weapon2 = weaponService.createWeapon("Napoleon","Sword");
+
         addConsumableToInventory(playerInventory, sunsettia);
         addConsumableToInventory(playerInventory, starshroom);
         addConsumableToInventory(playerInventory, apple);
         addPersonaSoulToInventory(playerInventory, personaSoul);
+        addWeaponToInventory(playerInventory,weapon1);
+        addWeaponToInventory(playerInventory,weapon2);
 
         return inventoryRepository.save(playerInventory);
+    }
+
+    @Override
+    public Inventory addWeaponToInventory(Inventory inventory, Weapon weapon) {
+        List<Weapon> weaponList = inventory.getWeaponList();
+        weaponList.add(weapon);
+        return inventoryRepository.save(inventory);
+    }
+
+    @Override
+    public Inventory deleteWeaponToInventory(Inventory inventory, String weaponName) {
+        List<Weapon> weaponList = inventory.getWeaponList();
+        Iterator<Weapon> itr = weaponList.iterator();
+
+        while(itr.hasNext()) {
+            String target = itr.next().getWeaponName();
+            if(target.equals(weaponName)) {
+                itr.remove();
+            }
+        }
+
+        return inventoryRepository.save(inventory);
     }
 
     @Override

@@ -116,4 +116,25 @@ public class SoulcatcherController {
         }
         return "redirect:/inventory/upgrade";
     }
+
+    @GetMapping("/inventory/weapons")
+    public String listWeapon(Model model) {
+        if(player != null) {
+            model.addAttribute("weapons", player.getPlayerInventory().getWeaponList());
+            return "weapon_list";
+        } else {
+            return "redirect:/login";
+        }
+    }
+
+    @GetMapping(value = "/inventory/{weaponName}/delete-weapon")
+    public String deleteWeapon(@PathVariable String weaponName) {
+        if(player == null) {
+            return "redirect:/login";
+        }
+        var inventory = player.getPlayerInventory();
+        inventoryService.deleteWeaponToInventory(inventory, weaponName);
+
+        return "redirect:/inventory/weapons";
+    }
 }
