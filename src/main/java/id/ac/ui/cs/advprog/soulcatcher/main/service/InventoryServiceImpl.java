@@ -32,6 +32,10 @@ public class InventoryServiceImpl implements InventoryService {
     @Autowired
     PersonaInventoryService personaInventoryService;
 
+    @Autowired
+    WeaponService weaponService;
+
+
     private static final Random RAND = new Random();
 
     @Override
@@ -43,12 +47,39 @@ public class InventoryServiceImpl implements InventoryService {
         var starshroom = consumableService.createConsumable("Starshroom ", "Memulihkan 200 HP points");
         var personaSoul = personaSoulService.createPersonaSoul();
 
+        var weapon1 =weaponService.createWeapon("Simitar","Sword");
+        var weapon2 = weaponService.createWeapon("Napoleon","Sword");
+
         addConsumableToInventory(playerInventory, sunsettia);
         addConsumableToInventory(playerInventory, starshroom);
         addConsumableToInventory(playerInventory, apple);
         addPersonaSoulToInventory(playerInventory, personaSoul);
+        addWeaponToInventory(playerInventory,weapon1);
+        addWeaponToInventory(playerInventory,weapon2);
 
         return inventoryRepository.save(playerInventory);
+    }
+
+    @Override
+    public Inventory addWeaponToInventory(Inventory inventory, Weapon weapon) {
+        List<Weapon> weaponList = inventory.getWeaponList();
+        weaponList.add(weapon);
+        return inventoryRepository.save(inventory);
+    }
+
+    @Override
+    public Inventory deleteWeaponToInventory(Inventory inventory, String weaponName) {
+        List<Weapon> weaponList = inventory.getWeaponList();
+        Iterator<Weapon> itr = weaponList.iterator();
+
+        while(itr.hasNext()) {
+            String target = itr.next().getWeaponName();
+            if(target.equals(weaponName)) {
+                itr.remove();
+            }
+        }
+
+        return inventoryRepository.save(inventory);
     }
 
     @Override
@@ -99,17 +130,19 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public String posses(Integer personaSoulId, Player player) {
-        String[] classes = {"knight", "mage", "priest"};
-        String randomClass = classes[RAND.nextInt(classes.length)];
-        var persona = personaService.createPersona(randomClass);
-        Boolean isDuplicate = personaInventoryService.isPersonaDuplicate(player.getPersonaInventory(), persona);
+        var classes =  new String[]{"knight", "mage", "priest"};
+        var randomClass = classes[RAND.nextInt(classes.length)];
+        var newPersona = personaService.createPersona(randomClass);
+        var checkPersona = personaInventoryService.isPersonaDuplicate(player.getPersonaInventory(), newPersona);
         deletePersonaSoulFromInventory(player.getPlayerInventory(), personaSoulId);
 
-        if(Boolean.TRUE.equals(!isDuplicate)) {
-            personaInventoryService.addPersonaToInventory(player.getPersonaInventory(), persona);
+        if(checkPersona == null) {
+            personaInventoryService.addPersonaToInventory(player.getPersonaInventory(), newPersona);
             return "success";
 
         } else {
+            var oldSoulFragment = checkPersona.getSoulFragment();
+            checkPersona.setSoulFragment(oldSoulFragment + 3);
             return "duplicate";
         }
     }

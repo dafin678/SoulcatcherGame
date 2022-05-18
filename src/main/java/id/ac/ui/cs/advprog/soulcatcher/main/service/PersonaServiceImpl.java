@@ -41,12 +41,19 @@ public class PersonaServiceImpl implements PersonaService {
             name = "althea";
         }
 
-        var persona = new Persona(character, name);
+        var persona = new Persona(name, character.getHp(), character.getDamage(), character.getLevel(), classes);
         return personaRepository.save(persona);
     }
 
     @Override
     public List<Persona> getPersona(String username) {
         return personaRepository.findAll();
+    }
+
+    @Override
+    public Persona upgradePersona(Persona persona) {
+//        persona.getPersonaClass().upgrade();
+        return persona;
+
     }
 }

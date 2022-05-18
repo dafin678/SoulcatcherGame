@@ -2,10 +2,12 @@ package id.ac.ui.cs.advprog.soulcatcher.main.service;
 
 import id.ac.ui.cs.advprog.soulcatcher.main.model.Persona;
 import id.ac.ui.cs.advprog.soulcatcher.main.model.PersonaInventory;
+import id.ac.ui.cs.advprog.soulcatcher.main.model.Player;
 import id.ac.ui.cs.advprog.soulcatcher.main.repository.PersonaInventoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Iterator;
 import java.util.List;
 
@@ -32,17 +34,23 @@ public class PersonaInventoryServiceImpl implements PersonaInventoryService {
     }
 
     @Override
-    public boolean isPersonaDuplicate(PersonaInventory personaInventory, Persona persona) {
+    public Persona isPersonaDuplicate(PersonaInventory personaInventory, Persona persona) {
         List<Persona> personaList = personaInventory.getPersonaList();
         Iterator<Persona> itr = personaList.iterator();
 
         while(itr.hasNext()) {
-            String name = itr.next().getName();
-            if(name.equals(persona.getName())) {
-                return true;
+            var personaItr = itr.next();
+            if(personaItr.getName().equals(persona.getName())) {
+                return personaItr;
             }
         }
-        return false;
+        return null;
+    }
+
+    @Override
+    @Transactional
+    public List<Persona> getPersonaList(PersonaInventory personaInventory) {
+        return personaInventory.getPersonaList();
     }
 
 }

@@ -1,13 +1,14 @@
 package id.ac.ui.cs.advprog.soulcatcher.main.service;
 
 
-import id.ac.ui.cs.advprog.soulcatcher.main.model.Consumable;
-import id.ac.ui.cs.advprog.soulcatcher.main.model.Inventory;
-import id.ac.ui.cs.advprog.soulcatcher.main.model.PersonaSoul;
-import id.ac.ui.cs.advprog.soulcatcher.main.model.Player;
+import id.ac.ui.cs.advprog.soulcatcher.main.model.*;
 
 public interface InventoryService {
     Inventory createInventory(String name);
+
+    Inventory addWeaponToInventory(Inventory inventory, Weapon weapon);
+
+    Inventory deleteWeaponToInventory(Inventory inventory, String weaponName);
 
     Inventory addConsumableToInventory(Inventory inventory, Consumable consumable);
 
