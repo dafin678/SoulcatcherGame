@@ -6,7 +6,6 @@ import id.ac.ui.cs.advprog.soulcatcher.main.repository.ConsumableRepository;
 import id.ac.ui.cs.advprog.soulcatcher.main.repository.InventoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -67,6 +66,7 @@ public class InventoryServiceImpl implements InventoryService {
 
         return inventoryRepository.save(playerInventory);
     }
+
 
     @Override
     public Inventory addWeaponToInventory(Inventory inventory, Weapon weapon) {

@@ -16,6 +16,7 @@ public class WeaponServiceImpl implements WeaponService{
     @Autowired
     WeaponRepository weaponRepository;
 
+
     @Override
     public Weapon createWeapon(String name,String type) {
         Weapon weapon = null;
@@ -29,7 +30,8 @@ public class WeaponServiceImpl implements WeaponService{
         }
         return  null;
     }
-    @Override
+
+
     public List<Weapon> getWeapon() {
         return weaponRepository.findAll();
     }
