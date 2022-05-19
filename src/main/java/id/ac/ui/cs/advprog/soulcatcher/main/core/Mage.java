@@ -11,9 +11,4 @@ public class Mage extends Character {
     public void attack() {
         // untuk implementasi pve nanti
     }
-
-    @Override
-    public void upgrade() {
-
-    }
 }

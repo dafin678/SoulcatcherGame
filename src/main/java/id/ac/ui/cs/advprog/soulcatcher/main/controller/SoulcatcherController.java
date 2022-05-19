@@ -147,7 +147,7 @@ public class SoulcatcherController {
     @GetMapping(value = "/persona-inventory")
     public String listPersona(Model model) {
         if(player != null) {
-            model.addAttribute("personas", player.getPersonaInventory().getPersonaList());
+            model.addAttribute("personas", personaInventoryService.getPersonaList(player.getName()));
             return "persona_list";
         } else {
             return LOGIN_REDIRECT_VAR;

@@ -2,11 +2,13 @@ package id.ac.ui.cs.advprog.soulcatcher.main.service;
 
 import id.ac.ui.cs.advprog.soulcatcher.main.model.Persona;
 import id.ac.ui.cs.advprog.soulcatcher.main.model.PersonaInventory;
-import id.ac.ui.cs.advprog.soulcatcher.main.model.Player;
 import id.ac.ui.cs.advprog.soulcatcher.main.repository.PersonaInventoryRepository;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.Iterator;
 import java.util.List;
@@ -20,6 +22,9 @@ public class PersonaInventoryServiceImpl implements PersonaInventoryService {
     @Autowired
     PersonaInventoryRepository personaInventoryRepository;
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
     @Override
     public PersonaInventory createPersonaInventory(String username) {
         var personaInventory = new PersonaInventory(username);
@@ -27,15 +32,16 @@ public class PersonaInventoryServiceImpl implements PersonaInventoryService {
     }
 
     @Override
-    public PersonaInventory addPersonaToInventory(PersonaInventory personaInventory, Persona persona) {
-        List<Persona> personaList = personaInventory.getPersonaList();
+    public PersonaInventory addPersonaToInventory(String name, Persona persona) {
+        var personaInventory = personaInventoryRepository.findPersonaInventoriesByName(name);
+        List<Persona> personaList = getPersonaList(name);
         personaList.add(persona);
         return personaInventoryRepository.save(personaInventory);
     }
 
     @Override
-    public Persona isPersonaDuplicate(PersonaInventory personaInventory, Persona persona) {
-        List<Persona> personaList = personaInventory.getPersonaList();
+    public Persona isPersonaDuplicate(String name, Persona persona) {
+        List<Persona> personaList = getPersonaList(name);
         Iterator<Persona> itr = personaList.iterator();
 
         while(itr.hasNext()) {
@@ -49,7 +55,10 @@ public class PersonaInventoryServiceImpl implements PersonaInventoryService {
 
     @Override
     @Transactional
-    public List<Persona> getPersonaList(PersonaInventory personaInventory) {
+    public List<Persona> getPersonaList(String name) {
+        var personaInventory = personaInventoryRepository.findPersonaInventoriesByName(name);
+        var session = entityManager.unwrap(Session.class);
+        session.close();
         return personaInventory.getPersonaList();
     }
 

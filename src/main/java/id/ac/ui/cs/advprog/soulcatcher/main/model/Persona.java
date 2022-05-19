@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -41,9 +42,8 @@ public class Persona {
     @Column(name = "persona_class")
     private String personaClass;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "persona_inventory_name")
-    private PersonaInventory personaInventory;
+    @ManyToMany(mappedBy = "personaList")
+    private List<PersonaInventory> personaInventory;
 
     @Column
     private int soulFragment = 0;

@@ -23,8 +23,13 @@ public class PersonaInventory {
     @OneToOne(mappedBy = "personaInventory")
     private Player player;
 
-    @OneToMany(mappedBy = "personaInventory", cascade = CascadeType.ALL)
+    @ManyToMany
     @LazyCollection(LazyCollectionOption.FALSE)
+    @JoinTable(
+            name="persona_list",
+            joinColumns = @JoinColumn(name = "inventory_name"),
+            inverseJoinColumns = @JoinColumn(name = "persona_id")
+    )
     private List<Persona> personaList = new ArrayList<>();
 
     public PersonaInventory(String name) {
