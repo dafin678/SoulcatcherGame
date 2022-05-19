@@ -12,5 +12,4 @@ public class Priest extends Character{
         // untuk implementasi pve nanti
     }
 
-
 }

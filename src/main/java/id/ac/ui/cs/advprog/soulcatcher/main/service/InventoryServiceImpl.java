@@ -45,6 +45,10 @@ public class InventoryServiceImpl implements InventoryService {
         var apple = consumableService.createConsumable("Apple", "Memulihkan 100 mana points");
         var starshroom = consumableService.createConsumable("Starshroom ", "Memulihkan 200 HP points");
         var personaSoul = personaSoulService.createPersonaSoul();
+        var personaSoul2 = personaSoulService.createPersonaSoul();
+        var personaSoul3 = personaSoulService.createPersonaSoul();
+        var personaSoul4 = personaSoulService.createPersonaSoul();
+        var personaSoul5 = personaSoulService.createPersonaSoul();
 
         var weapon1 =weaponService.createWeapon("Simitar","Sword");
         var weapon2 = weaponService.createWeapon("Napoleon","Sword");
@@ -53,6 +57,10 @@ public class InventoryServiceImpl implements InventoryService {
         addConsumableToInventory(playerInventory, starshroom);
         addConsumableToInventory(playerInventory, apple);
         addPersonaSoulToInventory(playerInventory, personaSoul);
+        addPersonaSoulToInventory(playerInventory, personaSoul2);
+        addPersonaSoulToInventory(playerInventory, personaSoul3);
+        addPersonaSoulToInventory(playerInventory, personaSoul4);
+        addPersonaSoulToInventory(playerInventory, personaSoul5);
         addWeaponToInventory(playerInventory,weapon1);
         addWeaponToInventory(playerInventory,weapon2);
 
@@ -133,11 +141,12 @@ public class InventoryServiceImpl implements InventoryService {
         var classes =  new String[]{"knight", "mage", "priest"};
         var randomClass = classes[RAND.nextInt(classes.length)];
         var newPersona = personaService.createPersona(randomClass);
-        var checkPersona = personaInventoryService.isPersonaDuplicate(player.getPersonaInventory(), newPersona);
+
+        var checkPersona = personaInventoryService.isPersonaDuplicate(player.getName(), newPersona);
         deletePersonaSoulFromInventory(player.getPlayerInventory(), personaSoulId);
 
         if(checkPersona == null) {
-            personaInventoryService.addPersonaToInventory(player.getPersonaInventory(), newPersona);
+            personaInventoryService.addPersonaToInventory(player.getName(), newPersona);
             return "success";
 
         } else {
