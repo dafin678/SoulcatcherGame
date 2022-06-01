@@ -9,6 +9,7 @@ Deploy_staging:
   stage: deploy
   only:
     - master
+    - staging
   image: ruby:latest
   before_script:
     - gem install dpl

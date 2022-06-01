@@ -25,6 +25,7 @@ public class Player {
     @OneToOne(mappedBy = "player")
     private User user;
 
+
     @OneToOne
     @JoinColumn(name = "persona_inventory", referencedColumnName ="persona_inventory_name")
     private PersonaInventory personaInventory;

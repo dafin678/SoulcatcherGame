@@ -12,9 +12,4 @@ public class Priest extends Character{
         // untuk implementasi pve nanti
     }
 
-    @Override
-    public void upgrade() {
-
-    }
-
 }

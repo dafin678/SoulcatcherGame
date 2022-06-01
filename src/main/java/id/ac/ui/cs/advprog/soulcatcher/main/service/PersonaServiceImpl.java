@@ -41,7 +41,7 @@ public class PersonaServiceImpl implements PersonaService {
             name = "althea";
         }
 
-        var persona = new Persona(character, name);
+        var persona = new Persona(name, character.getHp(), character.getDamage(), character.getLevel(), classes);
         return personaRepository.save(persona);
     }
 
@@ -52,7 +52,7 @@ public class PersonaServiceImpl implements PersonaService {
 
     @Override
     public Persona upgradePersona(Persona persona) {
-        persona.getPersonaClass().upgrade();
+//        persona.getPersonaClass().upgrade();
         return persona;
 
     }

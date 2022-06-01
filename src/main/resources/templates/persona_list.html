@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
-
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 </head>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap');
@@ -22,33 +22,26 @@
                     <a th:href="@{/dashboard}" style="text-decoration: none;color: black">Back</a>
                 </div>
                 <div class="col-6">
-                    <h2 class="text-center mb-5">Inventory</h2>
+                    <h2 class="text-center mb-5">Persona List</h2>
                 </div>
             </div>
         </div>
 
         <div class="col-12">
-            <div class="row">
-                <div class="col-3">
-                    <div class="list-group">
-                        <a href="/inventory" class="list-group-item list-group-item-action active">Consumables</a>
-                        <a href="/inventory/weapons" class="list-group-item list-group-item-action">Weapons</a>
-                        <a href="#" class="list-group-item list-group-item-action">Armors</a>
-                        <a href="/inventory/persona-souls" class="list-group-item list-group-item-action">Persona Souls</a>
-                    </div>
-                </div>
+            <div class="row justify-content-center">
+                <div class="col-3"></div>
 
                 <div class="col-9">
                     <div class="row">
-                        <div th:each="consumable : ${consumables}" class="col-lg-3 col-md-4 col-sm-6" >
+                        <div th:each="persona : ${personas}" class="col-lg-3 col-md-4 col-sm-6" >
                             <div class="card mb-3 w-100 h-85">
                                 <div class="card-body">
-                                    <h5 th:text="${consumable.getName()}" class="card-title"></h5>
-                                    <h6 class="card-subtitle mb-2 text-muted">Consumable</h6>
-                                    <p th:text="${consumable.getDescription()}" class="card-text"></p>
-                                    <a class="btn btn-light">Use</a>
-                                    <a class="btn btn-dark" th:href="@{inventory/{id}/delete-consumable(id=${consumable.getId()})}">
-                                        Remove</a>
+                                    <h5 th:text = "${persona.getName()}" class="card-title"></h5>
+                                    <p th:text = "Level + ': ' + ${persona.getLevel()}" class="card-text"></p>
+                                    <p th:text = "Hp + ': ' + ${persona.getHp()}" class="card-text"></p>
+                                    <p th:text = "Damage + ': ' + ${persona.getDamage()}" class="card-text"></p>
+                                    <a href="/inventory/upgrade" class="btn btn-light">Upgrade</a>
+                                    <a class="btn btn-dark">Equip</a>
                                 </div>
                             </div>
                         </div>
@@ -62,6 +55,8 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
 </script>
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </body>
 </html>

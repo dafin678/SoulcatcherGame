@@ -42,7 +42,7 @@ public class LoginController {
             model.addAttribute(MESSAGE_VAR, "Username atau password yang anda masukkan salah");
             return LOGIN_VAR;
         }
-        Cookie c = new Cookie("jwttoken", jwt);
+        var c = new Cookie("jwttoken", jwt);
         c.setHttpOnly(true);
         response.addCookie(c);
 

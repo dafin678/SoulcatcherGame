@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PersonaInventoryRepository extends JpaRepository<PersonaInventory, Integer> {
+    PersonaInventory findPersonaInventoriesByName(String username);
 }

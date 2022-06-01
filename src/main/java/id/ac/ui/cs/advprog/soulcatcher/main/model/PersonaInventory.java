@@ -3,6 +3,8 @@ package id.ac.ui.cs.advprog.soulcatcher.main.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -21,13 +23,17 @@ public class PersonaInventory {
     @OneToOne(mappedBy = "personaInventory")
     private Player player;
 
-
-    @OneToMany(mappedBy = "personaInventory", cascade = CascadeType.ALL)
-    private List<Persona> personaList;
+    @ManyToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @JoinTable(
+            name="persona_list",
+            joinColumns = @JoinColumn(name = "inventory_name"),
+            inverseJoinColumns = @JoinColumn(name = "persona_id")
+    )
+    private List<Persona> personaList = new ArrayList<>();
 
     public PersonaInventory(String name) {
         this.name=name;
-        this.personaList = new ArrayList<>();
     }
 
 

@@ -6,7 +6,6 @@ import id.ac.ui.cs.advprog.soulcatcher.main.repository.ConsumableRepository;
 import id.ac.ui.cs.advprog.soulcatcher.main.repository.InventoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -32,6 +31,10 @@ public class InventoryServiceImpl implements InventoryService {
     @Autowired
     PersonaInventoryService personaInventoryService;
 
+    @Autowired
+    WeaponService weaponService;
+
+
     private static final Random RAND = new Random();
 
     @Override
@@ -42,13 +45,49 @@ public class InventoryServiceImpl implements InventoryService {
         var apple = consumableService.createConsumable("Apple", "Memulihkan 100 mana points");
         var starshroom = consumableService.createConsumable("Starshroom ", "Memulihkan 200 HP points");
         var personaSoul = personaSoulService.createPersonaSoul();
+        var personaSoul2 = personaSoulService.createPersonaSoul();
+        var personaSoul3 = personaSoulService.createPersonaSoul();
+        var personaSoul4 = personaSoulService.createPersonaSoul();
+        var personaSoul5 = personaSoulService.createPersonaSoul();
+
+        var weapon1 =weaponService.createWeapon("Simitar","Sword");
+        var weapon2 = weaponService.createWeapon("Napoleon","Sword");
 
         addConsumableToInventory(playerInventory, sunsettia);
         addConsumableToInventory(playerInventory, starshroom);
         addConsumableToInventory(playerInventory, apple);
         addPersonaSoulToInventory(playerInventory, personaSoul);
+        addPersonaSoulToInventory(playerInventory, personaSoul2);
+        addPersonaSoulToInventory(playerInventory, personaSoul3);
+        addPersonaSoulToInventory(playerInventory, personaSoul4);
+        addPersonaSoulToInventory(playerInventory, personaSoul5);
+        addWeaponToInventory(playerInventory,weapon1);
+        addWeaponToInventory(playerInventory,weapon2);
 
         return inventoryRepository.save(playerInventory);
+    }
+
+
+    @Override
+    public Inventory addWeaponToInventory(Inventory inventory, Weapon weapon) {
+        List<Weapon> weaponList = inventory.getWeaponList();
+        weaponList.add(weapon);
+        return inventoryRepository.save(inventory);
+    }
+
+    @Override
+    public Inventory deleteWeaponToInventory(Inventory inventory, String weaponName) {
+        List<Weapon> weaponList = inventory.getWeaponList();
+        Iterator<Weapon> itr = weaponList.iterator();
+
+        while(itr.hasNext()) {
+            String target = itr.next().getWeaponName();
+            if(target.equals(weaponName)) {
+                itr.remove();
+            }
+        }
+
+        return inventoryRepository.save(inventory);
     }
 
     @Override
@@ -102,11 +141,12 @@ public class InventoryServiceImpl implements InventoryService {
         var classes =  new String[]{"knight", "mage", "priest"};
         var randomClass = classes[RAND.nextInt(classes.length)];
         var newPersona = personaService.createPersona(randomClass);
-        var checkPersona = personaInventoryService.isPersonaDuplicate(player.getPersonaInventory(), newPersona);
+
+        var checkPersona = personaInventoryService.isPersonaDuplicate(player.getName(), newPersona);
         deletePersonaSoulFromInventory(player.getPlayerInventory(), personaSoulId);
 
         if(checkPersona == null) {
-            personaInventoryService.addPersonaToInventory(player.getPersonaInventory(), newPersona);
+            personaInventoryService.addPersonaToInventory(player.getName(), newPersona);
             return "success";
 
         } else {
