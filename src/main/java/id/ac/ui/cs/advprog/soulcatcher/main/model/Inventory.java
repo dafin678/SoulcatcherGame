@@ -38,7 +38,7 @@ public class Inventory {
     private List<PersonaSoul> personaSoulList = new ArrayList<>();
 
     @ManyToMany
-    @JsonIgnore
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(
             name="weapon_inventory",
             joinColumns = @JoinColumn(name = "inventory_name"),

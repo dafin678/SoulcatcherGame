@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface PersonaInventoryService {
     PersonaInventory createPersonaInventory(String username);
-    PersonaInventory addPersonaToInventory(PersonaInventory personaInventory, Persona persona);
-    Persona isPersonaDuplicate(PersonaInventory personaInventory, Persona persona);
-    List<Persona> getPersonaList(PersonaInventory personaInventory);
+    PersonaInventory addPersonaToInventory(String name, Persona persona);
+    Persona isPersonaDuplicate(String name, Persona persona);
+    List<Persona> getPersonaList(String name);
 }

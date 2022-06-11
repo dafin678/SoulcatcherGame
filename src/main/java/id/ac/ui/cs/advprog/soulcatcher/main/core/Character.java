@@ -34,8 +34,8 @@ public abstract class Character implements Classes {
     }
 
     public void upgrade(){
-        setHp(getHp() + (int) 0.15 * getHp());
-        setDamage(getDamage() +  (int) 0.15 * getHp());
+        setHp(getHp() + (int) (0.15 * getHp()));
+        setDamage(getDamage() +  (int) (0.15 * getHp()));
         setLevel(getLevel() + 1);
     }
 }
