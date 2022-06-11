@@ -52,7 +52,7 @@ public class PersonaServiceImpl implements PersonaService {
 
     @Override
     public Persona upgradePersona(Persona persona) {
-//        persona.getPersonaClass().upgrade();
+
         return persona;
 
     }
