@@ -1,7 +1,7 @@
 package id.ac.ui.cs.advprog.soulcatcher.main.controller;
 
 import id.ac.ui.cs.advprog.soulcatcher.authentication.security.JwtUtils;
-import id.ac.ui.cs.advprog.soulcatcher.main.model.Persona;
+import id.ac.ui.cs.advprog.soulcatcher.main.core.vo.CharDetail;
 import id.ac.ui.cs.advprog.soulcatcher.main.model.Player;
 import id.ac.ui.cs.advprog.soulcatcher.main.service.InventoryService;
 import id.ac.ui.cs.advprog.soulcatcher.main.service.PersonaInventoryService;
@@ -13,10 +13,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class SoulcatcherController {
@@ -147,4 +147,18 @@ public class SoulcatcherController {
             return LOGIN_REDIRECT_VAR;
         }
     }
+
+    @GetMapping(value = "/battle")
+    public String battle(Model model) {
+        return "battle";
+    }
+
+    @RequestMapping(path = "/char-details", produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public ResponseEntity<CharDetail> getBattleDetails() {
+        CharDetail character = new CharDetail(50, 100, "Raiden", "Knight");
+
+        return ResponseEntity.ok(character);
+    }
+
 }
