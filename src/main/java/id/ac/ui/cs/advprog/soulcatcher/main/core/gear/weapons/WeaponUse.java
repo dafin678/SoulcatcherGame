@@ -1,7 +1,5 @@
 package id.ac.ui.cs.advprog.soulcatcher.main.core.gear.weapons;
 
-import javax.persistence.Embeddable;
-
 
 
 public interface WeaponUse {

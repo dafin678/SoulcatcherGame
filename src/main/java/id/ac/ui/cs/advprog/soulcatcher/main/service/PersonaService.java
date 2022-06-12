@@ -10,6 +10,6 @@ public interface PersonaService {
 
     List<Persona> getPersona(String username);
 
-    Persona upgradePersona(Persona persona);
+    Persona upgradePersona(Persona persona, int id);
 
 }

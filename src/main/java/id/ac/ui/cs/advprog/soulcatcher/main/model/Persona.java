@@ -18,14 +18,6 @@ public class Persona {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-//    @Column(name = "class")
-//    @Embedded
-//    @AttributeOverrides({
-//            @AttributeOverride( name = "hp", column = @Column(name = "hp")),
-//            @AttributeOverride( name = "damage", column = @Column(name = "damage")),
-//            @AttributeOverride( name = "level", column = @Column(name = "level"))
-//    })
-//    private Classes personaClass;
 
     @Column(name = "persona_name")
     private String name;

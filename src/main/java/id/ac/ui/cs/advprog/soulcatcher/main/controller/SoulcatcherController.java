@@ -15,8 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 public class SoulcatcherController {
@@ -130,7 +128,7 @@ public class SoulcatcherController {
     @GetMapping(value = "/inventory/{weaponName}/delete-weapon")
     public String deleteWeapon(@PathVariable String weaponName) {
         if(player == null) {
-            return "redirect:/login";
+            return LOGIN_REDIRECT_VAR;
         }
         var inventory = player.getPlayerInventory();
         inventoryService.deleteWeaponToInventory(inventory, weaponName);
@@ -156,7 +154,7 @@ public class SoulcatcherController {
     @RequestMapping(path = "/char-details", produces = "application/json; charset=UTF-8")
     @ResponseBody
     public ResponseEntity<CharDetail> getBattleDetails() {
-        CharDetail character = new CharDetail(50, 100, "Raiden", "Knight");
+        var character = new CharDetail(50, 100, "Raiden", "Knight");
 
         return ResponseEntity.ok(character);
     }
