@@ -25,6 +25,9 @@ public class PersonaServiceImpl implements PersonaService {
     @Autowired
     PlayerRepository playerRepository;
 
+    @Autowired
+    PersonaInventoryService personaInventoryService;
+
     @Override
     public Persona createPersona(String classes) {
         Classes character = null;
@@ -51,9 +54,29 @@ public class PersonaServiceImpl implements PersonaService {
     }
 
     @Override
-    public Persona upgradePersona(Persona persona) {
+    public Persona upgradePersona(Persona persona, int id) {
+        Classes character = null;
+        var name = "";
 
-        return persona;
+        switch (persona.getPersonaClass()) {
+            case "knight":
+                character = new Knight(character.getHp(), character.getDamage(), character.getLevel());
+                name = "raiden";
+                break;
+            case "mage":
+                character = new Mage(character.getHp(), character.getDamage(), character.getLevel());
+                name = "albus";
+                break;
+            case "priest":
+                character = new Priest(character.getHp(), character.getDamage(), character.getLevel());
+                name = "althea";
+                break;
+        }
+
+        character.upgrade();
+        var newPersona = new Persona(name, character.getHp(), character.getDamage(), character.getLevel(), persona.getPersonaClass());
+        newPersona.setId(id);
+        return personaRepository.save(newPersona);
 
     }
 }
