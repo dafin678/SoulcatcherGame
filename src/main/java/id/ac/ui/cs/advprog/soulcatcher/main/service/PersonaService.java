@@ -12,4 +12,6 @@ public interface PersonaService {
 
     Persona upgradePersona(Persona persona, int id);
 
+    Persona updatePersonaFragment(int id, int newFragments);
+
 }

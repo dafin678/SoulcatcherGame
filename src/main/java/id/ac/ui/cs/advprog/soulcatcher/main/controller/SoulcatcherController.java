@@ -3,9 +3,8 @@ package id.ac.ui.cs.advprog.soulcatcher.main.controller;
 import id.ac.ui.cs.advprog.soulcatcher.authentication.security.JwtUtils;
 import id.ac.ui.cs.advprog.soulcatcher.main.core.vo.CharDetail;
 import id.ac.ui.cs.advprog.soulcatcher.main.model.Player;
-import id.ac.ui.cs.advprog.soulcatcher.main.service.InventoryService;
-import id.ac.ui.cs.advprog.soulcatcher.main.service.PersonaInventoryService;
-import id.ac.ui.cs.advprog.soulcatcher.main.service.PlayerService;
+import id.ac.ui.cs.advprog.soulcatcher.main.model.dto.BattleRewardDTO;
+import id.ac.ui.cs.advprog.soulcatcher.main.service.*;
 import id.ac.ui.cs.advprog.soulcatcher.authentication.model.User;
 import id.ac.ui.cs.advprog.soulcatcher.authentication.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Controller
@@ -34,10 +36,21 @@ public class SoulcatcherController {
     @Autowired
     PersonaInventoryService personaInventoryService;
 
+    @Autowired
+    PersonaService personaService;
+
+    @Autowired
+    PersonaSoulService personaSoulService;
+
+    @Autowired
+    ConsumableService consumableService;
+
     private Player player;
 
-
     private static final String LOGIN_REDIRECT_VAR = "redirect:/login";
+
+    private static final String SOUL_FRAGMENT_VAR = "Soul Fragment";
+
 
     @GetMapping("/dashboard")
     public String index(@CookieValue(name="jwttoken", defaultValue = "") String token) {
@@ -157,6 +170,52 @@ public class SoulcatcherController {
         var character = new CharDetail(50, 100, "Raiden", "Knight");
 
         return ResponseEntity.ok(character);
+    }
+
+    @PostMapping(value = "/update-fragment/{newFragment}", produces = "application/json")
+    public @ResponseBody ResponseEntity<BattleRewardDTO> updateFragment(@PathVariable Integer newFragment, @RequestBody Integer personaId) {
+        personaService.updatePersonaFragment(personaId, newFragment);
+
+        List<String> name = new ArrayList<>();
+        List<Integer> quantity = new ArrayList<>();
+
+        name.add(SOUL_FRAGMENT_VAR);
+        quantity.add(newFragment);
+
+        return ResponseEntity.ok(new BattleRewardDTO(name, quantity));
+    }
+
+    @PostMapping(value = "/assign-persona-soul", produces = "application/json")
+    public @ResponseBody ResponseEntity<BattleRewardDTO> assignSoulReward() {
+        inventoryService.addPersonaSoulToInventory(player.getPlayerInventory(), personaSoulService.createPersonaSoul());
+
+        List<String> name = new ArrayList<>();
+        List<Integer> quantity = new ArrayList<>();
+
+        name.add(SOUL_FRAGMENT_VAR);
+        quantity.add(3);
+
+        name.add("Persona Soul");
+        quantity.add(1);
+
+        return ResponseEntity.ok(new BattleRewardDTO(name, quantity));
+    }
+
+    @PostMapping(value = "/assign-consumable", produces = "application/json")
+    public @ResponseBody ResponseEntity<BattleRewardDTO> assignConsumableReward() {
+        var consumableReward = consumableService.createRandomConsumable();
+        inventoryService.addConsumableToInventory(player.getPlayerInventory(), consumableReward);
+
+        List<String> name = new ArrayList<>();
+        List<Integer> quantity = new ArrayList<>();
+
+        name.add(SOUL_FRAGMENT_VAR);
+        quantity.add(3);
+
+        name.add(consumableReward.getName());
+        quantity.add(1);
+
+        return ResponseEntity.ok(new BattleRewardDTO(name, quantity));
     }
 
 }
