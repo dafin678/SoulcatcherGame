@@ -41,7 +41,7 @@
                                     <p th:text = "Hp + ': ' + ${persona.getHp()}" class="card-text"></p>
                                     <p th:text = "Damage + ': ' + ${persona.getDamage()}" class="card-text"></p>
                                     <a href="/inventory/upgrade" class="btn btn-light">Upgrade</a>
-                                    <a class="btn btn-dark">Equip</a>
+                                    <a th:href="@{equip/{id}(id=${persona.getId()})}" class="btn btn-dark">Equip</a>
                                 </div>
                             </div>
                         </div>

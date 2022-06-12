@@ -1,10 +1,13 @@
 package id.ac.ui.cs.advprog.soulcatcher.main.controller;
 
 import id.ac.ui.cs.advprog.soulcatcher.authentication.security.JwtUtils;
+import id.ac.ui.cs.advprog.soulcatcher.main.core.Character;
 import id.ac.ui.cs.advprog.soulcatcher.main.core.vo.CharDetail;
+import id.ac.ui.cs.advprog.soulcatcher.main.model.Persona;
 import id.ac.ui.cs.advprog.soulcatcher.main.model.Player;
 import id.ac.ui.cs.advprog.soulcatcher.main.service.InventoryService;
 import id.ac.ui.cs.advprog.soulcatcher.main.service.PersonaInventoryService;
+import id.ac.ui.cs.advprog.soulcatcher.main.service.PersonaService;
 import id.ac.ui.cs.advprog.soulcatcher.main.service.PlayerService;
 import id.ac.ui.cs.advprog.soulcatcher.authentication.model.User;
 import id.ac.ui.cs.advprog.soulcatcher.authentication.service.UserService;
@@ -15,6 +18,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,13 +41,16 @@ public class SoulcatcherController {
     @Autowired
     PersonaInventoryService personaInventoryService;
 
+    @Autowired
+    PersonaService personaService;
+
     private Player player;
 
 
     private static final String LOGIN_REDIRECT_VAR = "redirect:/login";
 
     @GetMapping("/dashboard")
-    public String index(@CookieValue(name="jwttoken", defaultValue = "") String token) {
+    public String index(@CookieValue(name="jwttoken", defaultValue = "") String token, HttpServletRequest request, HttpServletResponse response, Model model) {
         String username;
         try {
             username = jwtUtils.getUserNameFromJwtToken(token);
@@ -57,6 +65,10 @@ public class SoulcatcherController {
             player = playerService.getPlayer(userValue.getUsername());
             userValue.setPlayer(player);
             userService.save(user);
+            Persona persona = personaService.getPlayerPersona(player, request, response);
+            if (persona != null) {
+                model.addAttribute(persona);
+            }
         } else {
             return LOGIN_REDIRECT_VAR;
         }
@@ -148,6 +160,12 @@ public class SoulcatcherController {
         }
     }
 
+    @GetMapping(value = "/equip/{id}")
+    public String equip(@PathVariable int id, HttpServletRequest request, HttpServletResponse response) {
+        personaService.setDefaultPersona(request, response, id);
+        return "redirect:/dashboard";
+    }
+
     @GetMapping(value = "/battle")
     public String battle(Model model) {
         return "battle";
@@ -155,9 +173,9 @@ public class SoulcatcherController {
 
     @RequestMapping(path = "/char-details", produces = "application/json; charset=UTF-8")
     @ResponseBody
-    public ResponseEntity<CharDetail> getBattleDetails() {
-        CharDetail character = new CharDetail(50, 100, "Raiden", "Knight");
-
+    public ResponseEntity<CharDetail> getCharDetails(HttpServletRequest request, HttpServletResponse response) {
+        Persona persona = personaService.getPersonaFromCookie(request, response);
+        CharDetail character = new CharDetail(persona.getId(), persona.getHp(), persona.getDamage(), persona.getName());
         return ResponseEntity.ok(character);
     }
 

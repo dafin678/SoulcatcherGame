@@ -5,12 +5,17 @@ import id.ac.ui.cs.advprog.soulcatcher.main.core.Knight;
 import id.ac.ui.cs.advprog.soulcatcher.main.core.Mage;
 import id.ac.ui.cs.advprog.soulcatcher.main.core.Priest;
 import id.ac.ui.cs.advprog.soulcatcher.main.model.Persona;
+import id.ac.ui.cs.advprog.soulcatcher.main.model.PersonaInventory;
+import id.ac.ui.cs.advprog.soulcatcher.main.model.Player;
 import id.ac.ui.cs.advprog.soulcatcher.main.repository.PersonaInventoryRepository;
 import id.ac.ui.cs.advprog.soulcatcher.main.repository.PersonaRepository;
 import id.ac.ui.cs.advprog.soulcatcher.main.repository.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Service
@@ -56,4 +61,60 @@ public class PersonaServiceImpl implements PersonaService {
         return persona;
 
     }
+
+    @Override
+    public void setDefaultPersona(HttpServletRequest request, HttpServletResponse response, int id) {
+//        Cookie[] cookies = request.getCookies();
+//
+//        if (cookies != null) {
+//            for (Cookie cookie : cookies) {
+//                if (cookie.getName().equals("persona")) {
+//                    cookie.setValue(Integer.toString(id));
+//                    response.addCookie(cookie);
+//                    cookie.setPath("/");
+//                    System.out.println(id);
+//                    System.out.println(cookie.getValue());
+//                }
+//            }
+//        }
+        Cookie ck = new Cookie("persona", "");
+        ck.setMaxAge(0);
+        response.addCookie(ck);
+        Cookie newCk = new Cookie("persona", Integer.toString(id));
+        response.addCookie(newCk);
+    }
+
+    @Override
+    public Persona getPersonaFromCookie(HttpServletRequest request, HttpServletResponse response) {
+        Cookie[] cookies = request.getCookies();
+
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("persona")) {
+                    int id = Integer.parseInt(cookie.getValue());
+                    return personaRepository.findById(id);
+                }
+            }
+        }
+        return null;
+    }
+
+    public Persona getPlayerPersona(Player player, HttpServletRequest request, HttpServletResponse response) {
+        Persona persona = getPersonaFromCookie(request, response);
+        if (persona == null) {
+            PersonaInventory playerPersonaInventory = player.getPersonaInventory();
+            if (playerPersonaInventory.getPersonaList().size() > 0) {
+                persona = playerPersonaInventory.getPersonaList().get(0);
+                Cookie ck = new Cookie("persona", Integer.toString(persona.getId()));
+                response.addCookie(ck);
+            } else {
+                return null;
+            }
+        }
+        return persona;
+    }
+
+
+
+
 }

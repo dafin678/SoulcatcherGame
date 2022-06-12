@@ -18,7 +18,14 @@
         <div class="row text-center">
             <div class="col align-self-center">
                 <div class="container" style="width: 20rem;">
+                    <div th:if= "${persona == null}">
                     <h2 class="text-center mb-3">Personal Dashboard</h2>
+                    </div>
+                    <div th:if= "${persona != null}">
+                        <p th:text="Name+ ': ' + ${persona.name}"></p>
+                        <p th:text="Level+ ': ' + ${persona.level}"></p>
+                        <a th:href="@{/battle}" class="list-group-item list-group-item-action text-center">Battle</a>
+                    </div>
                     <div class="list-group">
                         <a th:href="@{/inventory}" class="list-group-item list-group-item-action text-center">Inventory</a>
                         <a th:href="@{/persona-inventory}" class="list-group-item list-group-item-action text-center">Persona</a>
