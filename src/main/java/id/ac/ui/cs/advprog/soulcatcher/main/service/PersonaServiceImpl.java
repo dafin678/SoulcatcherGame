@@ -79,4 +79,12 @@ public class PersonaServiceImpl implements PersonaService {
         return personaRepository.save(newPersona);
 
     }
+
+    @Override
+    public Persona updatePersonaFragment(int id, int newFragments) {
+        var persona = personaRepository.findPersonaById(id);
+        var oldFragments = persona.getSoulFragment();
+        persona.setSoulFragment(oldFragments + newFragments);
+        return persona;
+    }
 }
