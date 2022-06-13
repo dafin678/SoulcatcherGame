@@ -13,6 +13,8 @@ public class ConsumableServiceImpl implements ConsumableService {
     @Autowired
     ConsumableRepository consumableRepository;
 
+    Random random = new Random();
+
     @Override
     public Consumable createConsumable(String name, String description) {
         var consumable = new Consumable(name, description);
@@ -26,7 +28,6 @@ public class ConsumableServiceImpl implements ConsumableService {
 
     @Override
     public Consumable createRandomConsumable() {
-        var random = new Random();
         Integer randInt = random.nextInt(3);
 
         if(randInt.equals(0)) {
