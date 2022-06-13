@@ -49,6 +49,7 @@
     let char;
     let enemy;
     let aliveEnemy;
+    const battleUrl = "https://soulcatcher-battle-b1.herokuapp.com/"
 
     function getChar() {
         $.getJSON("char-details", function(json){
@@ -72,7 +73,7 @@
     function getEnemy() {
         let x = 1
         aliveEnemy = 0;
-        $.getJSON("http://localhost:5001/enemy-details", function(json){
+        $.getJSON(battleUrl + "enemy-details", function(json){
             enemy = json
             json.forEach((data) => {
                 let id = document.getElementById("enemy" + x)
@@ -103,7 +104,7 @@
         };
         $.ajax({
             type: "POST",
-            url: "http://localhost:5001/attack-monster",
+            url: battleUrl + "attack-monster",
             data: JSON.stringify(text),
             headers: {
                 'Accept': 'application/json',
@@ -134,7 +135,7 @@
                     };
                     $.ajax({
                         type: "POST",
-                        url: "http://localhost:5001/attack-monster",
+                        url: battleUrl + "attack-monster",
                         data: JSON.stringify(text),
                         headers: {
                             'Accept': 'application/json',
@@ -202,7 +203,7 @@
         if (condition === "win") {
             $.ajax({
                 type: "POST",
-                url: "http://localhost:5001/win-battle",
+                url: battleUrl + "win-battle",
                 data: JSON.stringify(char.id),
                 headers: {
                     'Accept': 'application/json',
@@ -220,7 +221,7 @@
         } else {
             $.ajax({
                 type: "POST",
-                url: "http://localhost:5001/lose-battle",
+                url: battleUrl + "lose-battle",
                 data: JSON.stringify(char.id),
                 headers: {
                     'Accept': 'application/json',
