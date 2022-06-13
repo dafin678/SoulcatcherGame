@@ -8,4 +8,6 @@ public interface ConsumableService {
     Consumable createConsumable(String name, String description);
 
     List<Consumable> getConsumables();
+
+    Consumable createRandomConsumable();
 }

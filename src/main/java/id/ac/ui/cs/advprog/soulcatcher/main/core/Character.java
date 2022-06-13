@@ -5,8 +5,15 @@ public abstract class Character implements Classes {
     protected int damage;
     protected int level;
 
-    protected Character() {
+    protected Character(){
         this.setLevel(1);
+    }
+
+    protected Character(int hp, int damage, int level) {
+        this.hp = hp;
+        this.damage =damage;
+        this.level =level;
+
     }
 
     public void setHp(int value) {

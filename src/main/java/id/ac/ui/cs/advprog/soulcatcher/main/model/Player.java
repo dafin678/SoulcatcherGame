@@ -25,14 +25,17 @@ public class Player {
     @OneToOne(mappedBy = "player")
     private User user;
 
-
     @OneToOne
     @JoinColumn(name = "persona_inventory", referencedColumnName ="persona_inventory_name")
     private PersonaInventory personaInventory;
 
+    @Column(name = "defaultPersona")
+    private int personaId;
+
     public Player(String username, String name) {
         this.username=username;
         this.name=name;
+        this.personaId = 0;
     }
 
 }

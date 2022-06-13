@@ -13,12 +13,12 @@ public interface PersonaService {
 
     List<Persona> getPersona(String username);
 
-    Persona upgradePersona(Persona persona);
+    Persona upgradePersona(Persona persona, int id);
 
-    void setDefaultPersona(HttpServletRequest request, HttpServletResponse response, int id);
+    Persona updatePersonaFragment(int id, int newFragments);
 
-    Persona getPersonaFromCookie(HttpServletRequest request, HttpServletResponse response);
+    void setDefaultPersona(Player player, int id);
 
-    Persona getPlayerPersona(Player player, HttpServletRequest request, HttpServletResponse response);
+    Persona getPlayerPersona(Player player);
 
 }

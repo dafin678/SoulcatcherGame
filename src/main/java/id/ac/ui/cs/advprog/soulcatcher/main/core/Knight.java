@@ -8,6 +8,10 @@ public class Knight extends Character {
         this.setDamage(50);
     }
 
+    public Knight(int hp, int damage, int level){
+        super(hp,damage,level);
+    }
+
     @Override
     public void attack() {
         // untuk implementasi pve nanti
