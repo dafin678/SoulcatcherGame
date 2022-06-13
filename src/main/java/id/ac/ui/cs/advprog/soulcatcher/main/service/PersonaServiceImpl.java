@@ -5,12 +5,17 @@ import id.ac.ui.cs.advprog.soulcatcher.main.core.Knight;
 import id.ac.ui.cs.advprog.soulcatcher.main.core.Mage;
 import id.ac.ui.cs.advprog.soulcatcher.main.core.Priest;
 import id.ac.ui.cs.advprog.soulcatcher.main.model.Persona;
+import id.ac.ui.cs.advprog.soulcatcher.main.model.PersonaInventory;
+import id.ac.ui.cs.advprog.soulcatcher.main.model.Player;
 import id.ac.ui.cs.advprog.soulcatcher.main.repository.PersonaInventoryRepository;
 import id.ac.ui.cs.advprog.soulcatcher.main.repository.PersonaRepository;
 import id.ac.ui.cs.advprog.soulcatcher.main.repository.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Service
@@ -24,9 +29,6 @@ public class PersonaServiceImpl implements PersonaService {
     
     @Autowired
     PlayerRepository playerRepository;
-
-    @Autowired
-    PersonaInventoryService personaInventoryService;
 
     @Override
     public Persona createPersona(String classes) {
@@ -82,9 +84,36 @@ public class PersonaServiceImpl implements PersonaService {
 
     @Override
     public Persona updatePersonaFragment(int id, int newFragments) {
-        var persona = personaRepository.findPersonaById(id);
+        var persona = personaRepository.findById(id);
         var oldFragments = persona.getSoulFragment();
         persona.setSoulFragment(oldFragments + newFragments);
         return persona;
     }
+
+    @Override
+    public void setDefaultPersona(Player player, int id) {
+        player.setPersonaId(id);
+        playerRepository.save(player);
+    }
+
+    public Persona getPlayerPersona(Player player) {
+        Persona persona;
+        if (player.getPersonaId() == 0) {
+            PersonaInventory playerPersonaInventory = player.getPersonaInventory();
+            if (playerPersonaInventory.getPersonaList().size() > 0) {
+                persona = playerPersonaInventory.getPersonaList().get(0);
+                setDefaultPersona(player, persona.getId());
+            } else {
+                return null;
+            }
+        } else {
+            int id = player.getPersonaId();
+            persona = personaRepository.findById(id);
+        }
+        return persona;
+    }
+
+
+
+
 }

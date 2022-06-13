@@ -2,6 +2,7 @@ package id.ac.ui.cs.advprog.soulcatcher.main.controller;
 
 import id.ac.ui.cs.advprog.soulcatcher.authentication.security.JwtUtils;
 import id.ac.ui.cs.advprog.soulcatcher.main.core.vo.CharDetail;
+import id.ac.ui.cs.advprog.soulcatcher.main.model.Persona;
 import id.ac.ui.cs.advprog.soulcatcher.main.model.Player;
 import id.ac.ui.cs.advprog.soulcatcher.main.model.dto.BattleRewardDTO;
 import id.ac.ui.cs.advprog.soulcatcher.main.service.*;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +56,7 @@ public class SoulcatcherController {
 
 
     @GetMapping("/dashboard")
-    public String index(@CookieValue(name="jwttoken", defaultValue = "") String token) {
+    public String index(@CookieValue(name="jwttoken", defaultValue = "") String token, HttpServletRequest request, HttpServletResponse response, Model model) {
         String username;
         try {
             username = jwtUtils.getUserNameFromJwtToken(token);
@@ -68,6 +71,10 @@ public class SoulcatcherController {
             player = playerService.getPlayer(userValue.getUsername());
             userValue.setPlayer(player);
             userService.save(user);
+            Persona persona = personaService.getPlayerPersona(player);
+            if (persona != null) {
+                model.addAttribute(persona);
+            }
         } else {
             return LOGIN_REDIRECT_VAR;
         }
@@ -159,16 +166,25 @@ public class SoulcatcherController {
         }
     }
 
+    @GetMapping(value = "/equip/{id}")
+    public String equip(@PathVariable int id, HttpServletRequest request, HttpServletResponse response) {
+        personaService.setDefaultPersona(player, id);
+        return "redirect:/dashboard";
+    }
+
     @GetMapping(value = "/battle")
-    public String battle(Model model) {
+    public String battle() {
+        if(player == null) {
+            return LOGIN_REDIRECT_VAR;
+        }
         return "battle";
     }
 
     @RequestMapping(path = "/char-details", produces = "application/json; charset=UTF-8")
     @ResponseBody
-    public ResponseEntity<CharDetail> getBattleDetails() {
-        var character = new CharDetail(50, 100, "Raiden", "Knight");
-
+    public ResponseEntity<CharDetail> getCharDetails(HttpServletRequest request, HttpServletResponse response) {
+        Persona persona = personaService.getPlayerPersona(player);
+        CharDetail character = new CharDetail(persona.getId(), persona.getHp(), persona.getDamage(), persona.getName());
         return ResponseEntity.ok(character);
     }
 

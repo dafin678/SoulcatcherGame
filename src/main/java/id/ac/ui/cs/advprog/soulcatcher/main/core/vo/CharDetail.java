@@ -4,15 +4,17 @@ import lombok.Data;
 
 @Data
 public class CharDetail {
+    private int id;
     private int hp;
     private int damage;
     private String name;
-    private String type;
+    private String state;
 
-    public CharDetail(int hp, int damage, String name, String type) {
+    public CharDetail(int id, int hp, int damage, String name) {
+        this.id = id;
         this.hp = hp;
         this.damage = damage;
         this.name = name;
-        this.type = type;
+        this.state = "alive";
     }
 }
