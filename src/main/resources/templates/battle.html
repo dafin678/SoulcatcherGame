@@ -119,6 +119,9 @@
                 setTimeout(function() { attackPlayer(1) }, 1000);
                 setTimeout(function() { attackPlayer(2) }, 2000);
                 setTimeout(function() { attackPlayer(3) }, 3000);
+                if (char.state === "dead") {
+                    battleResult("lose")
+                }
             },
             error: function (result, status) {
             }
@@ -145,9 +148,6 @@
                         success: function (result) {
                             updateCharacter(result)
                             console.log(char.state)
-                            if (char.state === "dead") {
-                                battleResult("lose")
-                            }
                         },
                         error: function (result, status) {
                         }

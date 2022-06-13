@@ -12,10 +12,6 @@ import id.ac.ui.cs.advprog.soulcatcher.main.repository.PersonaRepository;
 import id.ac.ui.cs.advprog.soulcatcher.main.repository.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Service
@@ -41,7 +37,7 @@ public class PersonaServiceImpl implements PersonaService {
         } else if (classes.equals("mage")) {
             character = new Mage();
             name = "albus";
-        } else if (classes.equals("priest")) {
+        } else {
             character = new Priest();
             name = "althea";
         }
@@ -60,19 +56,15 @@ public class PersonaServiceImpl implements PersonaService {
         Classes character = null;
         var name = "";
 
-        switch (persona.getPersonaClass()) {
-            case "knight":
-                character = new Knight(character.getHp(), character.getDamage(), character.getLevel());
+        if (persona.getPersonaClass().equals("knight")) {
+                character = new Knight(persona.getHp(), persona.getDamage(), persona.getLevel());
                 name = "raiden";
-                break;
-            case "mage":
-                character = new Mage(character.getHp(), character.getDamage(), character.getLevel());
+        } else if (persona.getPersonaClass().equals("mage")) {
+                character = new Mage(persona.getHp(), persona.getDamage(), persona.getLevel());
                 name = "albus";
-                break;
-            case "priest":
-                character = new Priest(character.getHp(), character.getDamage(), character.getLevel());
+        } else {
+                character = new Priest(persona.getHp(), persona.getDamage(), persona.getLevel());
                 name = "althea";
-                break;
         }
 
         character.upgrade();
@@ -99,8 +91,8 @@ public class PersonaServiceImpl implements PersonaService {
     public Persona getPlayerPersona(Player player) {
         Persona persona;
         if (player.getPersonaId() == 0) {
-            PersonaInventory playerPersonaInventory = player.getPersonaInventory();
-            if (playerPersonaInventory.getPersonaList().size() > 0) {
+            var playerPersonaInventory = player.getPersonaInventory();
+            if (!playerPersonaInventory.getPersonaList().isEmpty()) {
                 persona = playerPersonaInventory.getPersonaList().get(0);
                 setDefaultPersona(player, persona.getId());
             } else {

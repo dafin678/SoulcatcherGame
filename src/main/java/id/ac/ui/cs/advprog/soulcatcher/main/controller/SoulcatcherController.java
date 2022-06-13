@@ -71,7 +71,7 @@ public class SoulcatcherController {
             player = playerService.getPlayer(userValue.getUsername());
             userValue.setPlayer(player);
             userService.save(user);
-            Persona persona = personaService.getPlayerPersona(player);
+            var persona = personaService.getPlayerPersona(player);
             if (persona != null) {
                 model.addAttribute(persona);
             }
@@ -183,8 +183,8 @@ public class SoulcatcherController {
     @RequestMapping(path = "/char-details", produces = "application/json; charset=UTF-8")
     @ResponseBody
     public ResponseEntity<CharDetail> getCharDetails(HttpServletRequest request, HttpServletResponse response) {
-        Persona persona = personaService.getPlayerPersona(player);
-        CharDetail character = new CharDetail(persona.getId(), persona.getHp(), persona.getDamage(), persona.getName());
+        var persona = personaService.getPlayerPersona(player);
+        var character = new CharDetail(persona.getId(), persona.getHp(), persona.getDamage(), persona.getName());
         return ResponseEntity.ok(character);
     }
 
